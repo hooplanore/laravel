@@ -24,7 +24,8 @@ const form = reactive({
     zip_code: "",
     address1: "",
     address2: "",
-    telpaymentgender: "",
+    tel: "",
+    gender: "",
     birthday: "",
     joindate: "",
     amount_category: "",
@@ -32,6 +33,8 @@ const form = reactive({
     introducer: "",
     parent_name: "",
     campaign: "",
+    memo: "",
+    status: "",
 })
 const storeStudent = ()=> {
     Inertia.post('/students',form)

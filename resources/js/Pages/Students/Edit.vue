@@ -9,6 +9,7 @@ const props = defineProps({
 })
 
 const form = reactive({
+    id: props.student.id,
     name : props.student.name,
     kana: props.student.kana,
     email: props.student.email,
@@ -26,7 +27,7 @@ const form = reactive({
     parent_name: props.student.parent_name,
     campaign: props.student.campaign,
     memo: props.student.memo,
-    status: props.student.status,
+    status: props.student.status
 })
 const updateStudent = id => {
     Inertia.put(route('students.update',{ student: id}),form)

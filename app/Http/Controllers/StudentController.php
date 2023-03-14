@@ -109,9 +109,6 @@ class StudentController extends Controller
      */
     public function update(UpdateStudentRequest $request, Student $student)
     {
-
-        dd($student->name , $request->name);
-        
         $student->name = $request->name;
         $student->kana = $request->kana;
         $student->email = $request->email;

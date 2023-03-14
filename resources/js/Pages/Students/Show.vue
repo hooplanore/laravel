@@ -68,20 +68,20 @@ const deleteStudent = id => {
                                     {{ student.tel }}
                                     </div>
                                     <label for="gender" class="leading-7 text-sm text-gray-600">性別</label>
-                                    <div id="gender" class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <div id="gender" class="w-1/3 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                         <span v-if="student.gender === 0 ">女</span>
                                         <span v-if="student.gender === 1 ">男</span>
                                         <span v-if="student.gender === 2 ">他</span>
                                     </div>
                                     <label for="birthday" class="leading-7 text-sm text-gray-600">誕生日</label>
-                                    <div id="birthday" class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <div id="birthday" class="w-1/3 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                     {{ student.birthday }}
                                     </div>
                                     <label for="joindate" class="leading-7 text-sm text-gray-600">入会日</label>
                                     <div id="joindate" class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                     {{ student.joindate }}
                                     </div>
-                                    <label for="amount_category" class="leading-7 text-sm text-gray-600">入会日</label>
+                                    <label for="amount_category" class="leading-7 text-sm text-gray-600">支払区分</label>
                                     <div id="amount_category" class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                         <span v-if="student.amount_category === 0 ">月謝</span>
                                         <span v-if="student.amount_category === 1 ">スタンプ</span>
