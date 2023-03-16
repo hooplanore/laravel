@@ -6,6 +6,7 @@ use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Models\Group;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class GroupController extends Controller
 {
@@ -14,9 +15,18 @@ class GroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Inertia::render('Groups/Index');
+        $groups = Group::searchGroups($request->search)
+        ->select(
+            'id','group_category','name','groupdate','grouptime','placename',
+            'address','status')->paginate(50);
+
+            // dd($students);
+
+        return Inertia::render('Groups/Index',[
+            'groups' => $groups
+        ]);
     }
 
     /**
@@ -26,7 +36,7 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Groups/Create');
     }
 
     /**
@@ -37,7 +47,20 @@ class GroupController extends Controller
      */
     public function store(StoreGroupRequest $request)
     {
-        //
+        Group::create([
+            'group_category' => $request->group_category,
+            'name' => $request->name,
+            'groupdate' => $request->groupdate,
+            'grouptime' => $request->grouptime,
+            'placename' => $request->placename,
+            'address' => $request->address,
+        ]);
+
+        return to_route('groups.index')
+        ->with([
+            'message' => '登録しました',
+            'status' => 'success'
+        ]);
     }
 
     /**
@@ -48,7 +71,9 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        //
+        return Inertia::render('Groups/Show',[
+            'group' => $group
+        ]);
     }
 
     /**
@@ -59,7 +84,9 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        //
+        return Inertia::render('Groups/Edit',[
+            'group' => $group
+        ]);
     }
 
     /**
@@ -71,7 +98,22 @@ class GroupController extends Controller
      */
     public function update(UpdateGroupRequest $request, Group $group)
     {
-        //
+        
+        $group->group_category = $request->group_category;
+        $group->name = $request->name;
+        $group->groupdate = $request->groupdate;
+        $group->grouptime = $request->grouptime;
+        $group->placename = $request->placename;
+        $group->address = $request->address;
+        $group->status = $request->status;
+        $group->save();
+
+
+        return to_route('groups.index')
+        ->with([
+            'message' => '更新しました',
+            'status' => 'success'
+        ]);
     }
 
     /**
@@ -82,6 +124,11 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        //
+        $group->delete();
+        return to_route('groups.index')
+        ->with([
+        'message' => '削除しました。',
+        'status' => 'danger'
+        ]);
     }
 }

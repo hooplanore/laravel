@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use \App\Models\Student;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,10 +18,20 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             StudentSeeder::class,
+            GroupSeeder::class,
         ]);
 
-        \App\Models\Student::factory(1000)->create();
-            
+        \App\Models\Group::factory(1000)->create();
+
+        $groups = \App\Models\Group::all();
+
+        Student::factory(1000)->create()
+        ->each(function(Student $student) use ($groups){
+            $student->groups()->attach(
+            $groups->random(rand(1,3))->pluck('id')->toArray()
+            );
+        });
+        
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
@@ -28,4 +39,5 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
     }
+
 }

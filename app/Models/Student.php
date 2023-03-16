@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use app\Models\Group;
 
 class Student extends Model
 {
@@ -40,6 +41,11 @@ class Student extends Model
         }
         }
         }
+    
+    public function groups()
+    {
+    return $this->belongsToMany(Group::class);
+    }
 
 
 }

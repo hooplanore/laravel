@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->integer('group_category');
+            $table->tinyInteger('group_category')->default(0);
             $table->string('name');
             $table->string('groupdate')->nullable();
             $table->string('grouptime')->nullable();
             $table->string('placename')->nullable();
             $table->string('address')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('status')->default(0);
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
             });

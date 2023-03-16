@@ -138,8 +138,13 @@ const storeStudent = ()=> {
                                 </div>
                                 <div class="p-2 w-full">
                                 <div class="relative">
-                                    <label for="amount_category" class="leading-7 text-sm text-gray-600">支払区分</label>
-                                    <input type="text" id="amount_category" name="amount_category" v-model="form.amount_category" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <label for="amount_category" class="leading-7 text-sm text-gray-600 mr-4">支払区分</label>
+                                    <input type="radio" id="amount_category" name="amount_category" v-model="form.amount_category" value="0">
+                                    <label for="amount_category0" class="ml-2 mr-4">月謝</label>
+                                    <input type="radio" id="amount_category" name="amount_category" v-model="form.amount_category" value="1">
+                                    <label for="amount_category1" class="ml-2 mr-4">オールパス</label>
+                                    <input type="radio" id="amount_category" name="amount_category" v-model="form.amount_category" value="2">
+                                    <label for="amount_category2" class="ml-2 mr-4">スタンプ</label>
                                 </div>
                                 </div>
                                 <div class="p-2 w-full">

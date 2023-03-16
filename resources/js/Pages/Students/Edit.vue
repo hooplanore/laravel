@@ -107,7 +107,7 @@ const updateStudent = id => {
                                 </div>
                                 <div class="p-2 w-full">
                                 <div class="relative">
-                                    <label for="gender" class="leading-7 text-sm text-gray-600">性別</label>
+                                    <label for="gender" class="leading-7 text-sm text-gray-600 mr-4">性別</label>
                                     <input type="radio" id="gender" name="gender" v-model="form.gender" value="0">
                                     <label for="gender0" class="ml-2 mr-4">女</label>
                                     <input type="radio" id="gender" name="gender" v-model="form.gender" value="1">
@@ -130,7 +130,7 @@ const updateStudent = id => {
                                 </div>
                                 <div class="p-2 w-full">
                                 <div class="relative">
-                                    <label for="amount_category" class="leading-7 text-sm text-gray-600">支払区分</label>
+                                    <label for="amount_category" class="leading-7 text-sm text-gray-600 mr-4">支払区分</label>
                                     <input type="radio" id="amount_category" name="amount_category" v-model="form.amount_category" value="0">
                                     <label for="amount_category0" class="ml-2 mr-4">月謝</label>
                                     <input type="radio" id="amount_category" name="amount_category" v-model="form.amount_category" value="1">
@@ -141,7 +141,7 @@ const updateStudent = id => {
                                 </div>
                                 <div class="p-2 w-full">
                                 <div class="relative">
-                                    <label for="payment" class="leading-7 text-sm text-gray-600">支払方法</label>
+                                    <label for="payment" class="leading-7 text-sm text-gray-600 mr-4">支払方法</label>
                                     <input type="radio" id="payment" name="payment" v-model="form.payment" value="0">
                                     <label for="payment0" class="ml-2 mr-4">現金</label>
                                     <input type="radio" id="payment" name="payment" v-model="form.payment" value="1">
@@ -174,7 +174,7 @@ const updateStudent = id => {
                                 </div> -->
                                 <div class="p-2 w-full">
                                 <div class="relative">
-                                    <label for="status" class="leading-7 text-sm text-gray-600">ステータス</label>
+                                    <label for="status" class="leading-7 text-sm text-gray-600 mr-4">ステータス</label>
                                     <input type="radio" id="status" name="status" v-model="form.status" value="0">
                                     <label for="status0" class="ml-2 mr-4">在籍</label>
                                     <input type="radio" id="status" name="status" v-model="form.status" value="1">

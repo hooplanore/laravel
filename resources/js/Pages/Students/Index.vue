@@ -22,6 +22,7 @@ Inertia.get(route('students.index', { search: search.value }))
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">生徒一覧</h2>
+
         </template>
 
         <div class="py-12">
@@ -30,7 +31,7 @@ Inertia.get(route('students.index', { search: search.value }))
                     <section class="text-gray-600 body-font">
                     <div class="container px-5 py-10 mx-auto">
                         <div class="w-full mx-auto overflow-auto">
-                        
+
                         <div>
                         <input type="text" name="search" v-model="search">
                         <button class="bg-blue-300 text-white py-2 px-2" @click="searchStudents">検索</button>
@@ -40,36 +41,59 @@ Inertia.get(route('students.index', { search: search.value }))
                                 <Link as="button" :href="route('students.create')" class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">生徒登録</Link>
                         </div>
 
-                        <table class="table-auto w-full text-left whitespace-no-wrap">
-                            <thead>
-                            <tr>
-                                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">ID</th>
-                                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">氏名</th>
-                                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">カナ</th>
-                                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メール</th>
-                                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">性別</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="student in students.data" :key="student.id">
-                                <td class="px-4 py-3">
-                                 <Link :href="route('students.show',{student:student.id})">{{ student.id }}</Link>
-                                </td>
-                                <td class="px-4 py-3">{{ student.name }}</td>
-                                <td class="px-4 py-3">{{ student.kana }}</td>
-                                <td class="px-4 py-3">{{ student.email }}</td>
-                                <td class="px-4 py-3">
-                                            <span v-if="student.gender === 0 ">女</span>
-                                            <span v-if="student.gender === 1 ">男</span>
-                                            <span v-if="student.gender === 2 ">他</span>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div class="flex flex-col overflow-x-auto">
+                            <div class="sm:-mx-6 lg:-mx-8">
+                                <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full text-left text-sm font-light">
+                                        <thead class="border-b font-medium dark:border-neutral-500">
+                                        <tr>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ID</th>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">氏名</th>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">カナ</th>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メール</th>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">電話番号</th>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">性別</th>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">誕生日</th>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ステータス</th>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">編集</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="border-b dark:border-neutral-500" v-for="student in students.data" :key="student.id">
+                                            <td class="whitespace-nowrap px-4 py-3">
+                                                <Link :href="route('students.show',{student:student.id})">{{ student.id }} 詳細</Link>
+                                            </td>
+                                            <td class="whitespace-nowrap px-4 py-3">{{ student.name }}</td>
+                                            <td class="whitespace-nowrap px-4 py-3">{{ student.kana }}</td>
+                                            <td class="whitespace-nowrap px-4 py-3">{{ student.email }}</td>
+                                            <td class="whitespace-nowrap px-4 py-3">{{ student.tel }}</td>
+                                            <td class="whitespace-nowrap px-4 py-3">
+                                                        <span class="bg-red-100 px-1 py-1" v-if="student.gender === 0 ">女</span>
+                                                        <span class="bg-blue-100 px-1 py-1" v-if="student.gender === 1 ">男</span>
+                                                        <span class="bg-yellow-100 px-1 py-1" v-if="student.gender === 2 ">他</span>
+                                            </td>
+                                            <td class="whitespace-nowrap px-4 py-3">{{ student.birthday }}</td>
+                                            <td class="whitespace-nowrap px-4 py-3">
+                                                        <span v-if="student.status === 0 ">在籍</span>
+                                                        <span v-if="student.status === 1 ">休会</span>
+                                                        <span v-if="student.status === 2 ">退会</span>
+                                            </td>
+                                            <td class="whitespace-nowrap px-4 py-3">
+                                                <Link as="button" :href="route('students.edit',{student:student.id})" class="flex ml-auto text-white bg-black border-0 py-1 px-1 focus:outline-none hover:bg-gray-600 rounded">編集する</Link>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table> 
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
                         </div>
 
                     <Pagination class="mt-6" :links="students.links"></Pagination>
                     </div>
+
                     </section>
                     
                 </div>

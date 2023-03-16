@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateStudentRequest;
 use App\Models\Student;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Models\Group;
 
 class StudentController extends Controller
 {
@@ -20,12 +21,11 @@ class StudentController extends Controller
         $students = Student::searchStudents($request->search)
         ->select(
             'id','name','kana','email','tel',
-            'gender','birthday','joindate','payment','introducer',)->paginate(50);
-
-            // dd($students);
+            'gender','birthday','joindate','payment','introducer','status')->paginate(50);
+           // dd($students);
 
         return Inertia::render('Students/Index',[
-            'students' => $students
+            'students' => $students,
         ]);
     }
         
