@@ -5,11 +5,13 @@ import { reactive } from 'vue';
 import { Inertia } from '@inertiajs/inertia'
 
 const props = defineProps({
-    student:Object
+    student:Object,
+    group:Object
 })
 
 const form = reactive({
     id: props.student.id,
+    groupname : props.group.name,
     name : props.student.name,
     kana: props.student.kana,
     email: props.student.email,
@@ -54,7 +56,9 @@ const updateStudent = id => {
                                 <!-- <div class="p-2 w-full">
                                 <div class="relative">
                                     <label for="class_id" class="leading-7 text-sm text-gray-600">所属クラス</label>
-                                    <input type="text" id="class_id" name="class_id" v-model="form.class_id" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <select v-for="group in student.groups" :key="student.id">{{ group.name }}クラス</select>
+                                    {{ group.name }}
+                                    <input type="text" id="class_id" name="class_id" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                 </div>
                                 </div> -->
                                 <div class="p-2 w-full">

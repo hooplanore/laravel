@@ -11,6 +11,7 @@ defineProps({
 
 const search = ref('')
 // ref の値を取得するには .valueが必要
+
 const searchStudents = () => {
 Inertia.get(route('students.index', { search: search.value }))
 }
@@ -32,6 +33,23 @@ Inertia.get(route('students.index', { search: search.value }))
                     <div class="container px-5 py-10 mx-auto">
                         <div class="w-full mx-auto overflow-auto">
 
+                            <!-- <table class="min-w-full text-left text-sm font-light">
+                                <thead class="border-b font-medium dark:border-neutral-500">
+                                <tr>
+                                    <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ID</th>
+                                    <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">氏名</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="border-b dark:border-neutral-500" v-for="group in groups.data" :key="group.id">
+                                    <td class="whitespace-nowrap px-4 py-3">{{ group }}</td>
+                                    <td class="whitespace-nowrap px-4 py-3">{{ group.name }}</td>
+                                    <td class="whitespace-nowrap px-4 py-3">{{ group.id }}</td>
+                                    <td class="whitespace-nowrap px-4 py-3">{{ group.name }}</td>
+                                </tr>
+                                </tbody>
+                            </table>  -->
+
                         <div>
                         <input type="text" name="search" v-model="search">
                         <button class="bg-blue-300 text-white py-2 px-2" @click="searchStudents">検索</button>
@@ -45,10 +63,12 @@ Inertia.get(route('students.index', { search: search.value }))
                             <div class="sm:-mx-6 lg:-mx-8">
                                 <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                                 <div class="overflow-x-auto">
+
                                     <table class="min-w-full text-left text-sm font-light">
                                         <thead class="border-b font-medium dark:border-neutral-500">
                                         <tr>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ID</th>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">所属クラス名</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">氏名</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">カナ</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メール</th>
@@ -62,8 +82,9 @@ Inertia.get(route('students.index', { search: search.value }))
                                         <tbody>
                                         <tr class="border-b dark:border-neutral-500" v-for="student in students.data" :key="student.id">
                                             <td class="whitespace-nowrap px-4 py-3">
-                                                <Link :href="route('students.show',{student:student.id})">{{ student.id }} 詳細</Link>
+                                                <Link :href="route('students.show',{student:student.id})">{{ student.id }} →詳細</Link>
                                             </td>
+                                            <td class="whitespace-nowrap px-4 py-3"><span v-for="group in student.groups" :key="student.id">{{ group.name }}クラス / {{ group.group_category }} , </span></td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.name }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.kana }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.email }}</td>

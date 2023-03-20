@@ -19,11 +19,14 @@ use App\Http\Controllers\GroupController;
 |
 */
 
+Route::get('/students', [StudentsController::class, 'index']);
+
 Route::resource('students', StudentController::class)
 ->middleware(['auth', 'verified']);
 
 Route::resource('groups', GroupController::class)
 ->middleware(['auth', 'verified']);
+
 
 Route::get('/', function () {
     return Inertia::render('Auth/Login', [

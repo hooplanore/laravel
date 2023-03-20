@@ -8,6 +8,7 @@ use App\Models\Student;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Group;
+use App\Models\GroupStudent;
 
 class StudentController extends Controller
 {
@@ -18,14 +19,20 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        $students = Student::searchStudents($request->search)
-        ->select(
-            'id','name','kana','email','tel',
-            'gender','birthday','joindate','payment','introducer','status')->paginate(50);
-           // dd($students);
+        $students = Student::searchStudents($request->search)->with(['groups' => function ($query) {
+            $query->select('groups.name','group_category');
+        }])->select('id','name','kana','email','tel','gender','birthday','status')->paginate(50);
+    
+
+        //dd($students);
+
+        // $students = Student::searchStudents($request->search)
+        // ->with('groups')->select('id','groups','name','kana','email','tel','gender','status')->paginate(50);
+
+        //$students = Student::with('groups')->take(10)->get();
 
         return Inertia::render('Students/Index',[
-            'students' => $students,
+            'students' => $students
         ]);
     }
         
@@ -37,7 +44,12 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Students/Create');
+
+        $groups = Group::all();
+
+        return Inertia::render('Students/Create', [
+            'groups' => $groups,
+        ]);
     }
 
     /**
@@ -80,8 +92,10 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(Student $student)
+    public function show($id)
     {
+        $student = Student::with('groups')->findOrFail($id);
+        //dd($students);
         return Inertia::render('Students/Show',[
             'student' => $student
         ]);
@@ -95,8 +109,13 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
+        $group = Group::take(10)->get();
+
+        //dd($group);
+
         return Inertia::render('Students/Edit',[
-            'student' => $student
+            'student' => $student,
+            'group' => $group,
         ]);
     }
 

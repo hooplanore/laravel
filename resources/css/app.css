@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.stshow tr{
+    border-bottom: solid 1px gray;
+}
+
+.stshow td{
+    padding: 20px;
+}
+
+.stshow th{
+    padding: 20px;
+    background-color:#efefef;
+}
