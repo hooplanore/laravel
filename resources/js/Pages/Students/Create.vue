@@ -63,8 +63,8 @@ const storeStudent = ()=> {
                             <div class="flex flex-wrap -m-2">
                                  <div class="p-2 w-full">
                                 <div class="relative">
-                                    <label for="class_id" class="leading-7 text-sm text-gray-600">所属クラス</label>
-                                    <select id="group" v-model="selectedGroupId">
+                                    <label for="selectedGroupId" class="leading-7 text-sm text-gray-600">所属クラス</label>
+                                    <select id="selectedGroupId" v-model="form.selectedGroupId">
                                     <option value="">- Select Group -</option>
                                     <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
                                     </select>

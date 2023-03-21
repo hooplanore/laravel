@@ -75,11 +75,21 @@ const deleteStudent = id => {
                                 <div class="p-2 w-full">
                                 <Link as="button" :href="route('groups.edit', { group: group.id })" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">編集する</Link>
                                 </div>
-                                <div class="mt-20 p-2 w-full">
+                                <div class="mt-10 p-2 w-full">
                                 <button @click="deleteStudent(group.id)" class="flex mx-auto text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除する</button>
                                 </div>
                             </div>
                             </div>
+
+
+                            <div class="p-2 w-full">
+                            <div class="relative">
+                                <label class="leading-7 text-sm text-gray-600">所属生徒一覧</label>
+                                <div class="w-full focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></div>
+                            <span v-for="student in group.students" :key="group.id">{{ student.name }}{{ student.email }}<br></span>
+                            </div>
+                            </div>
+                            
                         </div>
                         </section>
                     </div>

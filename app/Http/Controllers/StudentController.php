@@ -61,6 +61,7 @@ class StudentController extends Controller
     public function store(StoreStudentRequest $request)
     {
         Student::create([
+            'selectedGroupId' => $request->selectedGroupId,
             'name' => $request->name,
             'kana' => $request->kana,
             'email' => $request->email,
@@ -78,6 +79,8 @@ class StudentController extends Controller
             'parent_name' => $request->parent_name,
             'campaign' => $request->campaign,
         ]);
+
+       // dd($request);
 
         return to_route('students.index')
         ->with([

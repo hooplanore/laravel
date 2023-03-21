@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateGroupRequest;
 use App\Models\Group;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Models\Student;
 
 class GroupController extends Controller
 {
@@ -69,8 +70,9 @@ class GroupController extends Controller
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function show(Group $group)
+    public function show($id)
     {
+        $group = Group::with('students')->findOrFail($id);
         return Inertia::render('Groups/Show',[
             'group' => $group
         ]);
