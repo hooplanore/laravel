@@ -31,12 +31,6 @@ const deleteStudent = id => {
                         <div class="container px-5 py-8 mx-auto">
                         <div class="lg:w-full md:w-2/3 mx-auto">
                         <div class="flex flex-wrap -m-2">
-                                <!-- <div class="p-2 w-full">
-                                <div class="relative">
-                                    <label for="class_id" class="leading-7 text-sm text-gray-600">所属クラス</label>
-                                    <div id="class_id" class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">{{ student.class_id }}</div>
-                                </div>
-                                </div> -->
                                 <div class="p-2 w-1/2">
                                 <div class="relative">
 
@@ -45,7 +39,9 @@ const deleteStudent = id => {
                                             <th><label for="name" class="whitespace-nowrap leading-7 text-sm">所属クラス</label></th>
                                             <td> 
                                                 <div id="group">
-                                                    <span v-for="group in student.groups" :key="student.id">{{ group.name }}クラス / 
+                                                
+                                        
+                                                    <span v-for="group in student.groups" :key="student.id"><Link as="button" :href="route('groups.show',{ group: group.id })" class="text-gray-500 hover:text-indigo-600 py-2">{{ group.name }}クラス</Link> / 
                                                         <span v-if="group.group_category === 0 " class="bg-red-100 px-1 py-1 rounded-md" >ADV</span>
                                                         <span v-if="group.group_category === 1 " class="bg-green-500 px-1 py-1 rounded-md" >Reg</span>
                                                         <span v-if="group.group_category === 2 " class="bg-green-300 px-1 py-1 rounded-md" >Pre</span>

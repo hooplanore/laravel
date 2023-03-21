@@ -67,6 +67,7 @@ Inertia.get(route('students.index', { search: search.value }))
                                     <table class="min-w-full text-left text-sm font-light">
                                         <thead class="border-b font-medium dark:border-neutral-500">
                                         <tr>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ID</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">所属クラス名</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">氏名</th>
@@ -82,8 +83,9 @@ Inertia.get(route('students.index', { search: search.value }))
                                         <tbody>
                                         <tr class="border-b dark:border-neutral-500" v-for="student in students.data" :key="student.id">
                                             <td class="whitespace-nowrap px-4 py-3">
-                                                <Link :href="route('students.show',{student:student.id})">{{ student.id }} →詳細</Link>
+                                                <Link as="button" class="flex ml-auto text-white bg-green-700 py-1 px-1 focus:outline-none hover:bg-gray-600 rounded" :href="route('students.show',{student:student.id})">詳細を見る</Link>
                                             </td>
+                                            <td class="whitespace-nowrap px-4 py-3">{{ student.id }}</td>
                                             <td class="whitespace-nowrap px-4 py-3"><span v-for="group in student.groups" :key="student.id">{{ group.name }}クラス / {{ group.group_category }} , </span></td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.name }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.kana }}</td>
