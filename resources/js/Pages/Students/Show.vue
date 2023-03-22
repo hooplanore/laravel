@@ -29,18 +29,16 @@ const deleteStudent = id => {
                     <div class="p-6 text-gray-900">
                        <section class="text-gray-600 body-font relative">
                         <div class="container px-5 py-8 mx-auto">
-                        <div class="lg:w-full md:w-2/3 mx-auto">
+                        <div class="lg:w-full md:w-full mx-auto">
                         <div class="flex flex-wrap -m-2">
-                                <div class="p-2 w-1/2">
+                                <div class="p-2 w-full">
                                 <div class="relative">
 
                                     <table class="w-full stshow">
                                         <tr>
-                                            <th><label for="name" class="whitespace-nowrap leading-7 text-sm">所属クラス</label></th>
+                                            <th><label for="name" class="whitespace-nowrap">所属クラス</label></th>
                                             <td> 
                                                 <div id="group">
-                                                
-                                        
                                                     <span v-for="group in student.groups" :key="student.id"><Link as="button" :href="route('groups.show',{ group: group.id })" class="text-gray-500 hover:text-indigo-600 py-2">{{ group.name }}クラス</Link> / 
                                                         <span v-if="group.group_category === 0 " class="bg-red-100 px-1 py-1 rounded-md" >ADV</span>
                                                         <span v-if="group.group_category === 1 " class="bg-green-500 px-1 py-1 rounded-md" >Reg</span>
@@ -55,62 +53,35 @@ const deleteStudent = id => {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th><label for="name" class="leading-7 text-sm text-gray-600">名前</label></th>
-                                            <td>
-                                                <div id="name">
-                                                {{ student.name }}
-                                                </div>
-                                            </td>
+                                            <th><label for="name">名前</label></th>
+                                            <td><div id="name">{{ student.name }}</div></td>
                                         </tr>
                                         <tr>
-                                            <th><label for="kana" class="leading-7 text-sm text-gray-600">カナ</label></th>
-                                            <td><div id="kana">
-                                                {{ student.kana }}
-                                                </div>
-                                            </td>
+                                            <th><label for="kana">カナ</label></th>
+                                            <td><div id="kana">{{ student.kana }}</div></td>
                                         </tr>
                                         <tr>
-                                            <th><label for="email" class="leading-7 text-sm text-gray-600">メール</label></th>
-                                            <td>
-                                                <div id="email">
-                                                {{ student.email }}
-                                                </div>
-                                            </td>
+                                            <th><label for="email">メール</label></th>
+                                            <td><div id="email">{{ student.email }}</div></td>
                                         </tr>
                                         <tr>
-                                            <th><label for="zip_code" class="leading-7 text-sm text-gray-600">郵便番号</label></th>
-                                            <td>
-                                                <div id="zip_code">
-                                                    {{ student.zip_code }}
-                                                </div>
-                                            </td>
+                                            <th><label for="zip_code">郵便番号</label></th>
+                                            <td><div id="zip_code">{{ student.zip_code }}</div></td>
                                         </tr>
                                         <tr>
-                                            <th><label for="address1" class="leading-7 text-sm text-gray-600">住所1</label></th>
-                                            <td>
-                                                <div id="address1">
-                                                    {{ student.address1 }}
-                                                </div>
-                                            </td>
+                                            <th><label for="address1">住所1</label></th>
+                                            <td><div id="address1">{{ student.address1 }}</div></td>
                                         </tr>
                                         <tr>
-                                            <th><label for="address2" class="leading-7 text-sm text-gray-600">住所2</label></th>
-                                            <td>
-                                                <div id="address2">
-                                                    {{ student.address2 }}
-                                                </div>
-                                            </td>
+                                            <th><label for="address2">住所2</label></th>
+                                            <td><div id="address2">{{ student.address2 }}</div></td>
                                         </tr>
                                         <tr>
-                                            <th><label for="tel" class="leading-7 text-sm text-gray-600">電話番号</label></th>
-                                            <td>
-                                                <div id="tel">
-                                                    {{ student.tel }}
-                                                </div>
-                                            </td>
+                                            <th><label for="tel">電話番号</label></th>
+                                            <td><div id="tel">{{ student.tel }}</div></td>
                                         </tr>
                                         <tr>
-                                            <th><label for="gender" class="leading-7 text-sm text-gray-600">性別</label></th>
+                                            <th><label for="gender">性別</label></th>
                                             <td>
                                                 <div id="gender">
                                                     <span v-if="student.gender === 0 ">女</span>
@@ -120,23 +91,16 @@ const deleteStudent = id => {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th><label for="birthday" class="leading-7 text-sm text-gray-600">誕生日</label></th>
-                                            <td>
-                                                <div id="birthday">
-                                                    {{ student.birthday }}
-                                                </div>
+                                            <th><label for="birthday">誕生日</label></th>
+                                            <td><div id="birthday">{{ student.birthday }}</div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th><label for="joindate" class="leading-7 text-sm text-gray-600">入会日</label></th>
-                                            <td>
-                                                <div id="joindate">
-                                                    {{ student.joindate }}
-                                                </div>
-                                            </td>
+                                            <th><label for="joindate">入会日</label></th>
+                                            <td><div id="joindate">{{ student.joindate }}</div></td>
                                         </tr>
                                         <tr>
-                                            <th><label for="amount_category" class="leading-7 text-sm text-gray-600">支払区分</label></th>
+                                            <th><label for="amount_category">支払区分</label></th>
                                             <td>
                                                 <div id="amount_category">
                                                     <span v-if="student.amount_category === 0 ">月謝</span>
@@ -146,7 +110,7 @@ const deleteStudent = id => {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th><label for="payment" class="leading-7 text-sm text-gray-600">支払方法</label></th>
+                                            <th><label for="payment">支払方法</label></th>
                                             <td>
                                                 <div id="payment">
                                                     <span v-if="student.payment === 1 ">現金</span>
@@ -155,7 +119,7 @@ const deleteStudent = id => {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th><label for="status" class="leading-7 text-sm text-gray-600">ステータス</label></th>
+                                            <th><label for="status">ステータス</label></th>
                                             <td>
                                                 <div id="status">
                                                     <span v-if="student.status === 0 ">在籍</span>

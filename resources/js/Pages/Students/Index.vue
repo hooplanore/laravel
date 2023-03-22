@@ -86,7 +86,17 @@ Inertia.get(route('students.index', { search: search.value }))
                                                 <Link as="button" class="flex ml-auto text-white bg-green-700 py-1 px-1 focus:outline-none hover:bg-gray-600 rounded" :href="route('students.show',{student:student.id})">詳細を見る</Link>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.id }}</td>
-                                            <td class="whitespace-nowrap px-4 py-3"><span v-for="group in student.groups" :key="student.id">{{ group.name }}クラス / {{ group.group_category }} , </span></td>
+                                            <td class="whitespace-nowrap px-4 py-3">
+                                                    <span v-for="group in student.groups" :key="student.id">{{ group.name }}クラス_ 
+                                                        <span v-if="group.group_category === 0 " class="bg-red-100 px-1 py-1 rounded-md" >ADV</span>
+                                                        <span v-if="group.group_category === 1 " class="bg-green-500 px-1 py-1 rounded-md" >Reg</span>
+                                                        <span v-if="group.group_category === 2 " class="bg-green-300 px-1 py-1 rounded-md" >Pre</span>
+                                                        <span v-if="group.group_category === 3 " class="bg-yellow-100 px-1 py-1 rounded-md" >Jr.</span>
+                                                        <span v-if="group.group_category === 4 " class="bg-pink-100 px-1 py-1 rounded-md" >Kinder</span>
+                                                        <span v-if="group.group_category === 5 " class="bg-blue-100 px-1 py-1 rounded-md" >Short</span>
+                                                        <span v-if="group.group_category === 6 " class="bg-gray-100 px-1 py-1 rounded-md" >Studio</span>
+                                                        <span v-if="group.group_category === 7 ">その他</span> 
+                                                    / </span></td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.name }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.kana }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.email }}</td>

@@ -63,8 +63,8 @@ const storeStudent = ()=> {
                             <div class="flex flex-wrap -m-2">
                                  <div class="p-2 w-full">
                                 <div class="relative">
-                                    <label for="selectedGroupId" class="leading-7 text-sm text-gray-600">所属クラス</label>
-                                    <select id="selectedGroupId" v-model="form.selectedGroupId">
+                                    <label for="selectedGroupId" class="leading-7 text-sm text-gray-600 pr-4">所属クラス</label>
+                                    <select id="selectedGroupId" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300"  v-model="form.selectedGroupId">
                                     <option value="">- Select Group -</option>
                                     <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
                                     </select>
@@ -129,36 +129,35 @@ const storeStudent = ()=> {
                                     <label for="gender2" class="ml-2 mr-4">他</label>
                                 </div>
                                 </div>
-                                <div class="p-2 w-full">
+                                <div class="p-2 w-1/2">
                                 <div class="relative">
                                     <label for="birthday" class="leading-7 text-sm text-gray-600">生年月日</label>
                                     <input type="date" id="birthday" name="birthday" v-model="form.birthday" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                 </div>
                                 </div>
-                                <div class="p-2 w-full">
+                                <div class="p-2 w-1/2">
                                 <div class="relative">
                                     <label for="joindate" class="leading-7 text-sm text-gray-600">入会日</label>
                                     <input type="date" id="joindate" name="joindate" v-model="form.joindate" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                 </div>
                                 </div>
-                                <div class="p-2 w-full">
+                                <div class="p-2 w-1/2">
                                 <div class="relative">
                                     <label for="amount_category" class="leading-7 text-sm text-gray-600 mr-4">支払区分</label>
-                                    <input type="radio" id="amount_category" name="amount_category" v-model="form.amount_category" value="0">
-                                    <label for="amount_category0" class="ml-2 mr-4">月謝</label>
-                                    <input type="radio" id="amount_category" name="amount_category" v-model="form.amount_category" value="1">
-                                    <label for="amount_category1" class="ml-2 mr-4">オールパス</label>
-                                    <input type="radio" id="amount_category" name="amount_category" v-model="form.amount_category" value="2">
-                                    <label for="amount_category2" class="ml-2 mr-4">スタンプ</label>
+                                    <select class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300" v-model="form.amount_category">
+                                    <option id="amount_category" name="amount_category" value="0">月謝</option>
+                                    <option id="amount_category" name="amount_category" value="1">オールパス</option>
+                                    <option id="amount_category" name="amount_category" value="2">スタンプ</option>
+                                    </select>
                                 </div>
                                 </div>
-                                <div class="p-2 w-full">
+                                <div class="p-2 w-1/2">
                                 <div class="relative">
                                     <label class="leading-7 text-sm text-gray-600 mr-4">支払方法</label>
-                                    <input type="radio" id="payment" name="payment" v-model="form.payment" value="0">
-                                    <label for="payment0" class="ml-2 mr-4">現金</label>
-                                    <input type="radio" id="payment" name="payment" v-model="form.payment" value="1">
-                                    <label for="payment1" class="ml-2 mr-4">PayPay</label>
+                                    <select class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300" v-model="form.payment">
+                                    <option id="payment" name="payment" value="0">現金</option>
+                                    <option id="payment" name="payment" value="1">PayPay</option>
+                                    </select>
                                 </div>
                                 </div>
                                 <div class="p-2 w-full">

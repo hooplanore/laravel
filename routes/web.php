@@ -19,6 +19,7 @@ use App\Http\Controllers\GroupController;
 |
 */
 
+
 Route::get('/students', [StudentsController::class, 'index']);
 
 Route::resource('students', StudentController::class)

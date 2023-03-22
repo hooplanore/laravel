@@ -79,13 +79,12 @@ class StudentController extends Controller
             'campaign' => $request->campaign,
         ]);
 
+        $groupId=$request['group_id'];
+        $studentId=$request['student_id']; 
+        $group=Group::find($groupId);        
+        $group->students()->sync($studentId);
 
-        $group = Group::create([
-            'selectedGroupId' => $request->selectedGroupId,
-        ]);
-
-
-        dd($group);
+        dd($groupId);
 
         
 
