@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import { reactive } from 'vue';
+import { reactive,ref } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { Core as YubinBangoCore } from "yubinbango-core2";
 
@@ -41,6 +41,21 @@ const form = reactive({
 const storeStudent = ()=> {
     Inertia.post('/students',form)
 }
+
+const forms = ref([]); //入力されたデータが入るところ
+
+const addForm = () => { //追加ボタンをクリックしたときのイベント
+  let form_body = {};
+  form_body = {
+    selectedGroupId: "",
+  };
+  forms.value.push(form_body);
+};
+
+const deleteForm = (index) => { //削除ボタンをクリックしたときのイベント
+  forms.value.splice(index, 1);
+};
+
 </script>
 
 <template>
@@ -51,13 +66,26 @@ const storeStudent = ()=> {
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">生徒登録</h2>
         </template>
 
+
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                        <section class="text-gray-600 body-font relative">
 
+
+            <button class="btn btn-sm btn-outline-success" @click="addForm()">追加</button>
+            <div v-for="(form, index) in forms" :key="index">
+                <select id="selectedGroupId" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300"  v-model="forms[index].selectedGroupId">
+                <option value="">- Select Group -</option>
+                <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
+                </select>
+                <button class="btn btn-outline-danger" @click="deleteForm(index)">×</button>
+            </div>
+
+
                         <form @submit.prevent="storeStudent">
+
                         <div class="container px-5 py-8 mx-auto">
                             <div class="lg:w-1/2 md:w-2/3 mx-auto">
                             <div class="flex flex-wrap -m-2">
@@ -68,6 +96,7 @@ const storeStudent = ()=> {
                                     <option value="">- Select Group -</option>
                                     <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
                                     </select>
+
                                 </div>
                                 </div> 
                                 <div class="p-2 w-full">

@@ -78,15 +78,13 @@ class StudentController extends Controller
             'parent_name' => $request->parent_name,
             'campaign' => $request->campaign,
         ]);
-
-        $groupId=$request['group_id'];
-        $studentId=$request['student_id']; 
+        // dd($request);
+        $groupId=$request['selectedGroupId'];
+        $studentId=$student['id']; 
         $group=Group::find($groupId);        
-        $group->students()->sync($studentId);
-
-        dd($groupId);
-
+        $group->students()->syncWithoutDetaching($studentId);
         
+        dd($groupId);
 
         return to_route('students.index')
         ->with([
