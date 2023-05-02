@@ -128,19 +128,16 @@ const deleteStudent = id => {
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                            </td>
-                                            <td>
-                                                <div class="p-2 w-full">
-                                                <Link as="button" :href="route('students.edit', { student: student.id })" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">編集する</Link>
-                                                </div>
-                                                <div class="p-2 w-full">
-                                                <button @click="deleteStudent(student.id)" class="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除する</button>
-                                                </div>
-                                            </td>
-                                        </tr>
                                     </table>
+
+                                    <div class="my-10 p-2 w-full flex justify-center">
+                                        <div>
+                                        <Link as="button" :href="route('students.edit', { student: student.id })" class="mx-4 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">編集する</Link>
+                                        </div>
+                                        <div>
+                                        <button @click="deleteStudent(student.id)" class="mx-4 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除する</button>
+                                        </div>
+                                    </div>
 
                                 </div>
                                 </div>

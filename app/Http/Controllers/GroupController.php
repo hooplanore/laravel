@@ -73,8 +73,11 @@ class GroupController extends Controller
     public function show($id)
     {
         $group = Group::with('students')->findOrFail($id);
+        $user = Group::with('users')->findOrFail($id);
+//dd($group);
         return Inertia::render('Groups/Show',[
-            'group' => $group
+            'group' => $group,
+            'user' => $user,
         ]);
     }
 

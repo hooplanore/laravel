@@ -60,6 +60,17 @@ class StudentController extends Controller
      */
     public function store(StoreStudentRequest $request)
     {
+
+        $addforms = $request->addforms ?? $request->input('addforms');
+
+        // Student インスタンスを作成する前に、各フォームの selectedGroupIds プロパティを配列に格納する
+        $selectedGroupIdsArray = [];
+        foreach ($addforms as $addform) {
+            $selectedGroupIdsArray[] = $addform['selectedGroupIds'];
+        }
+        
+        //dd($request->all());
+        
         $student = Student::create([
             'name' => $request->name,
             'kana' => $request->kana,
@@ -78,19 +89,20 @@ class StudentController extends Controller
             'parent_name' => $request->parent_name,
             'campaign' => $request->campaign,
         ]);
-        // dd($request);
-        $groupId=$request['selectedGroupId'];
-        $studentId=$student['id']; 
-        $group=Group::find($groupId);        
-        $group->students()->syncWithoutDetaching($studentId);
         
-        dd($groupId);
-
-        return to_route('students.index')
-        ->with([
-            'message' => '登録しました',
-            'status' => 'success'
-        ]);
+        if (!is_null($request->addforms)) {
+            $selectedGroupIds = array_column($request->addforms, 'selectedGroupIds'); //選択されたグループIDの配列を取得
+            foreach ($selectedGroupIds as $groupId) {
+                $group = Group::find($groupId); //選択されたグループのモデルを取得
+                $group->students()->syncWithoutDetaching($student->id); //中間テーブルにレコードを追加
+            }
+        }
+        
+        return redirect()->route('students.index')
+            ->with([
+                'message' => '登録しました',
+                'status' => 'success'
+            ]);
     }
 
     /**
@@ -114,15 +126,16 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function edit(Student $student)
+    public function edit($id)
     {
-        $group = Group::take(10)->get();
+        $student = Student::with('groups')->findOrFail($id);
+        $groups = Group::all();
 
-        //dd($group);
+        //dd($groups);
 
         return Inertia::render('Students/Edit',[
             'student' => $student,
-            'group' => $group,
+            'groups' => $groups
         ]);
     }
 

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use \App\Models\Student;
+use \App\Models\Attendance;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,7 +20,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             StudentSeeder::class,
             GroupSeeder::class,
+            AttendanceSeeder::class,
         ]);
+
 
         \App\Models\Group::factory(1000)->create();
 
@@ -31,6 +34,8 @@ class DatabaseSeeder extends Seeder
             $groups->random(rand(1,3))->pluck('id')->toArray()
             );
         });
+
+        Attendance::factory(100)->create();
         
         // \App\Models\User::factory(10)->create();
 

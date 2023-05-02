@@ -38,6 +38,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('groups.index')" :active="route().current('groups.index')">
                                     クラス一覧
                                 </NavLink>
+                                <NavLink :href="route('instractors.index')" :active="route().current('instractors.index')">
+                                    講師一覧
+                                </NavLink>
                             </div>
                         </div>
 
@@ -125,6 +128,9 @@ const showingNavigationDropdown = ref(false);
                             生徒一覧
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('groups.index')" :active="route().current('groups.index')">
+                            クラス一覧
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('instractors.index')" :active="route().current('instractors.index')">
                             クラス一覧
                         </ResponsiveNavLink>
                     </div>

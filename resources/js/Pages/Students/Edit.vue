@@ -1,17 +1,17 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import { reactive } from 'vue';
+import { reactive,ref } from 'vue';
 import { Inertia } from '@inertiajs/inertia'
 
 const props = defineProps({
     student:Object,
-    group:Object
+    groups:Object
 })
 
 const form = reactive({
     id: props.student.id,
-    groupname : props.group.name,
+    //groupname : props.group.name,
     name : props.student.name,
     kana: props.student.kana,
     email: props.student.email,
@@ -29,11 +29,30 @@ const form = reactive({
     parent_name: props.student.parent_name,
     campaign: props.student.campaign,
     memo: props.student.memo,
-    status: props.student.status
+    status: props.student.status,
+
+    addforms: [],
 })
+const addforms = ref([]); //入力されたデータが入るところ
+
+const addForm = () => { //追加ボタンをクリックしたときのイベント
+  let form_body = {};
+  form_body = {
+    selectedGroupIds: "",
+  };
+  addforms.value.push(form_body);
+};
+
+const deleteForm = (index) => { //削除ボタンをクリックしたときのイベント
+    addforms.value.splice(index, 1);
+};
+
+
 const updateStudent = id => {
     Inertia.put(route('students.update',{ student: id}),form)
 }
+
+
 </script>
 
 <template>
@@ -49,18 +68,33 @@ const updateStudent = id => {
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                        <section class="text-gray-600 body-font relative">
+
+                        <!-- <label for="groupname" class="leading-7 text-sm text-gray-600">所属クラス</label>
+                                <button class="ml-4 btn btn-sm btn-outline-success bg-blue-400 px-2 border-r text-white" @click="addForm()">追加</button>
+                            <div v-for="(addform, index) in addforms" :key="index">
+                                <select :id="'selectedGroupIds' + index" v-model="student.groups[0].id" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300 my-2">
+                                <option value="">- Select Group -</option>
+                                <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
+                                </select>
+                                <button class="btn btn-outline-danger" @click="deleteForm(index)">×</button>
+                            </div> -->
+
                         <form @submit.prevent="updateStudent(form.id)">
                         <div class="container px-5 py-8 mx-auto">
                             <div class="lg:w-1/2 md:w-2/3 mx-auto">
                             <div class="flex flex-wrap -m-2">
-                                <!-- <div class="p-2 w-full">
+                                    
+                            
+                                <div class="p-2 w-full">
                                 <div class="relative">
-                                    <label for="class_id" class="leading-7 text-sm text-gray-600">所属クラス</label>
-                                    <select v-for="group in student.groups" :key="student.id">{{ group.name }}クラス</select>
-                                    {{ group.name }}
-                                    <input type="text" id="class_id" name="class_id" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <label for="groupname" class="leading-7 text-sm text-gray-600">所属クラス</label>
+                                    <select :id="'selectedGroupIds' + index" v-model="student.groups[0].id" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                     <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
+                                    </select>
+                                    <button class="btn btn-outline-danger" @click="deleteForm(index)">×</button>
                                 </div>
-                                </div> -->
+                                </div>
+
                                 <div class="p-2 w-full">
                                 <div class="relative">
                                     <label for="name" class="leading-7 text-sm text-gray-600">生徒名</label>

@@ -33,23 +33,6 @@ Inertia.get(route('students.index', { search: search.value }))
                     <div class="container px-5 py-10 mx-auto">
                         <div class="w-full mx-auto overflow-auto">
 
-                            <!-- <table class="min-w-full text-left text-sm font-light">
-                                <thead class="border-b font-medium dark:border-neutral-500">
-                                <tr>
-                                    <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ID</th>
-                                    <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">氏名</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr class="border-b dark:border-neutral-500" v-for="group in groups.data" :key="group.id">
-                                    <td class="whitespace-nowrap px-4 py-3">{{ group }}</td>
-                                    <td class="whitespace-nowrap px-4 py-3">{{ group.name }}</td>
-                                    <td class="whitespace-nowrap px-4 py-3">{{ group.id }}</td>
-                                    <td class="whitespace-nowrap px-4 py-3">{{ group.name }}</td>
-                                </tr>
-                                </tbody>
-                            </table>  -->
-
                         <div>
                         <input type="text" name="search" v-model="search">
                         <button class="bg-blue-300 text-white py-2 px-2" @click="searchStudents">検索</button>
@@ -83,10 +66,12 @@ Inertia.get(route('students.index', { search: search.value }))
                                         <tbody>
                                         <tr class="border-b dark:border-neutral-500" v-for="student in students.data" :key="student.id">
                                             <td class="whitespace-nowrap px-4 py-3">
-                                                <Link as="button" class="flex ml-auto text-white bg-green-700 py-1 px-1 focus:outline-none hover:bg-gray-600 rounded" :href="route('students.show',{student:student.id})">詳細を見る</Link>
+                                                <Link class="flex ml-auto text-white bg-green-600 py-1 px-2 focus:outline-none hover:bg-gray-600 rounded" :href="route('students.show',{student:student.id})">詳細を見る</Link>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.id }}</td>
+                                            
                                             <td class="whitespace-nowrap px-4 py-3">
+                                                <Link :href="route('students.show',{student:student.id})">
                                                     <span v-for="group in student.groups" :key="student.id">{{ group.name }}クラス_ 
                                                         <span v-if="group.group_category === 0 " class="bg-red-100 px-1 py-1 rounded-md" >ADV</span>
                                                         <span v-if="group.group_category === 1 " class="bg-green-500 px-1 py-1 rounded-md" >Reg</span>
@@ -96,21 +81,22 @@ Inertia.get(route('students.index', { search: search.value }))
                                                         <span v-if="group.group_category === 5 " class="bg-blue-100 px-1 py-1 rounded-md" >Short</span>
                                                         <span v-if="group.group_category === 6 " class="bg-gray-100 px-1 py-1 rounded-md" >Studio</span>
                                                         <span v-if="group.group_category === 7 ">その他</span> 
-                                                    / </span></td>
+                                                    / </span></Link>
+                                            </td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.name }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.kana }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.email }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.tel }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">
-                                                        <span class="bg-red-100 px-1 py-1" v-if="student.gender === 0 ">女</span>
-                                                        <span class="bg-blue-100 px-1 py-1" v-if="student.gender === 1 ">男</span>
-                                                        <span class="bg-yellow-100 px-1 py-1" v-if="student.gender === 2 ">他</span>
+                                                        <span class="bg-red-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.gender === 0 ">女</span>
+                                                        <span class="bg-blue-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.gender === 1 ">男</span>
+                                                        <span class="bg-yellow-100 text-xs px-2 py-2 font-bold rounded-md" v-if="student.gender === 2 ">他</span>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.birthday }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">
-                                                        <span v-if="student.status === 0 ">在籍</span>
-                                                        <span v-if="student.status === 1 ">休会</span>
-                                                        <span v-if="student.status === 2 ">退会</span>
+                                                        <span class="bg-blue-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.status === 0 ">在籍</span>
+                                                        <span class="bg-red-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.status === 1 ">休会</span>
+                                                        <span class="bg-gray-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.status === 2 ">退会</span>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-3">
                                                 <Link as="button" :href="route('students.edit',{student:student.id})" class="flex ml-auto text-white bg-black border-0 py-1 px-1 focus:outline-none hover:bg-gray-600 rounded">編集する</Link>

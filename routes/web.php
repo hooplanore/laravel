@@ -5,7 +5,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\InstractorController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\AttendanceController;
 
 
 /*
@@ -22,6 +24,13 @@ use App\Http\Controllers\GroupController;
 
 Route::get('/students', [StudentsController::class, 'index']);
 
+Route::resource('attendances', AttendanceController::class)
+->middleware(['auth', 'verified']);
+
+
+Route::resource('instractors', InstractorController::class)
+->middleware(['auth', 'verified']);
+
 Route::resource('students', StudentController::class)
 ->middleware(['auth', 'verified']);
 
@@ -30,7 +39,7 @@ Route::resource('groups', GroupController::class)
 
 
 Route::get('/', function () {
-    return Inertia::render('Auth/Login', [
+    return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,

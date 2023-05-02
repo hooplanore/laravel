@@ -1,7 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
-import { Inertia } from '@inertiajs/inertia';
 
 
 defineProps({
@@ -9,19 +8,14 @@ defineProps({
     user:Object
 })
 
-const deleteStudent = id => {
-    Inertia.delete(route('groups.destroy', { group: id}),{
-        onBefore: () => confirm('本当に削除しますか？')
-    })
-}
 </script>
 
 <template>
-    <Head title="クラス詳細" />
+    <Head title="出席管理" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">クラス詳細</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">出席管理</h2>
         </template>
 
         <div class="py-12">
@@ -53,32 +47,7 @@ const deleteStudent = id => {
                                         <th><label for="name" class="whitespace-nowrap">クラス名</label></th>
                                         <td>  {{ group.name }}</td>
                                     </tr>
-                                    <tr>
-                                        <th><label for="groupdate" class="whitespace-nowrap">曜日</label></th>
-                                        <td>  {{ group.groupdate }} </td>
-                                    </tr>
-                                    <tr>
-                                        <th><label for="grouptime" class="whitespace-nowrap">時間</label></th>
-                                        <td>{{ group.grouptime }} </td>
-                                    </tr>
-                                    <tr>
-                                        <th><label for="placename" class="whitespace-nowrap">会場名</label></th>
-                                        <td>{{ group.placename }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th><label for="address" class="whitespace-nowrap">住所</label></th>
-                                        <td>{{ group.address }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th><label for="address" class="whitespace-nowrap">担当講師</label></th>
-                                        <td><span v-for="user in user.users" :key="user.id">{{ user.name }}<br></span></td>
-                                    </tr>
                                 </table>
-                                
-                                <div class="my-10 p-2 w-full flex justify-center">
-                                <div><Link as="button" :href="route('groups.edit', { group: group.id })" class="mx-4 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">編集する</Link></div>
-                                <div><button @click="deleteStudent(group.id)" class="mx-4 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除する</button></div>
-                                </div>
 
                                     <table class="w-full stshow">
                                             <tr> 
@@ -86,12 +55,29 @@ const deleteStudent = id => {
                                                 <th>生徒名</th>
                                                 <th>支払方法</th>
                                                 <th>ステータス</th>
+                                                <th>出席チェック</th>
                                             </tr>
                                             <tr v-for="student in group.students" :key="group.id"> 
                                                 <td class="whitespace-nowrap text-center">{{ student.id }}</td>
                                                 <td class="whitespace-nowrap text-center">{{ student.name }}</td>
                                                 <td class="whitespace-nowrap text-center">{{ student.payment }}</td>
                                                 <td class="whitespace-nowrap text-center">{{ student.status }}</td>
+                                                <td class="whitespace-nowrap text-center">
+                                                    <label>
+                                                    <input
+                                                    v-model="isCheck"
+                                                    type="checkbox"
+                                                    class="peer sr-only"
+                                                    />
+                                                    <span
+                                                    class="block w-[2em] cursor-pointer bg-gray-500 rounded-full 
+                                                    p-[1px] after:block after:h-[1em] after:w-[1em] after:rounded-full 
+                                                    after:bg-white after:transition peer-checked:bg-blue-500 
+                                                    peer-checked:after:translate-x-[calc(100%-2px)]"
+                                                    >
+                                                    </span>
+                                                    {{ isCheck }}
+                                                    </label></td>
                                             </tr>
                                     </table>
 

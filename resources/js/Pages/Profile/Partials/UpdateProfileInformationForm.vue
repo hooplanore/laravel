@@ -14,6 +14,9 @@ const user = usePage().props.auth.user;
 
 const form = useForm({
     name: user.name,
+    kana: user.kana,
+    tel: user.tel,
+    gender: user.gender,
     email: user.email,
 });
 </script>
@@ -21,16 +24,13 @@ const form = useForm({
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900">Profile Information</h2>
+            <h2 class="text-lg font-medium text-gray-900">User Profile Information</h2>
 
-            <p class="mt-1 text-sm text-gray-600">
-                Update your account's profile information and email address.
-            </p>
         </header>
 
         <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
             <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="氏名" />
 
                 <TextInput
                     id="name"
@@ -43,6 +43,48 @@ const form = useForm({
                 />
 
                 <InputError class="mt-2" :message="form.errors.name" />
+            </div>
+
+            <div>
+                <InputLabel for="kana" value="フリガナ" />
+
+                <TextInput
+                    id="kana"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.kana"
+                    autocomplete="kana"
+                />
+
+                <InputError class="mt-2" :message="form.errors.kana" />
+            </div>
+
+            <div>
+                <InputLabel for="tel" value="電話番号" />
+
+                <TextInput
+                    id="tel"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.tel"
+                    autocomplete="tel"
+                />
+
+                <InputError class="mt-2" :message="form.errors.tel" />
+            </div>
+
+            <div>
+                <InputLabel for="gender" value="性別" />
+
+                
+                <input type="radio" id="gender" name="gender" v-model="form.gender" value="0">
+                                    <label for="gender0" class="ml-2 mr-4">女</label>
+                                    <input type="radio" id="gender" name="gender" v-model="form.gender" value="1">
+                                    <label for="gender1" class="ml-2 mr-4">男</label>
+                                    <input type="radio" id="gender" name="gender" v-model="form.gender" value="2">
+                                    <label for="gender2" class="ml-2 mr-4">他</label>
+
+                <InputError class="mt-2" :message="form.errors.gender" />
             </div>
 
             <div>
