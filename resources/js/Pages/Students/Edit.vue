@@ -69,7 +69,7 @@ const updateStudent = id => {
                     <div class="p-6 text-gray-900">
                        <section class="text-gray-600 body-font relative">
 
-                        <!-- <label for="groupname" class="leading-7 text-sm text-gray-600">所属クラス</label>
+                        <label for="groupname" class="leading-7 text-sm text-gray-600">所属クラス</label>
                                 <button class="ml-4 btn btn-sm btn-outline-success bg-blue-400 px-2 border-r text-white" @click="addForm()">追加</button>
                             <div v-for="(addform, index) in addforms" :key="index">
                                 <select :id="'selectedGroupIds' + index" v-model="student.groups[0].id" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300 my-2">
@@ -77,7 +77,7 @@ const updateStudent = id => {
                                 <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
                                 </select>
                                 <button class="btn btn-outline-danger" @click="deleteForm(index)">×</button>
-                            </div> -->
+                            </div>
 
                         <form @submit.prevent="updateStudent(form.id)">
                         <div class="container px-5 py-8 mx-auto">
