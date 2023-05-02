@@ -129,13 +129,13 @@ class StudentController extends Controller
     public function edit($id)
     {
         $student = Student::with('groups')->findOrFail($id);
-        $groups = Group::all();
+        //$group = Group::all();
 
-        //dd($groups);
+        //dd($student);
 
         return Inertia::render('Students/Edit',[
             'student' => $student,
-            'groups' => $groups
+            //'group' => $group
         ]);
     }
 
