@@ -25,8 +25,8 @@ class Attendance extends Model
     return $this->belongsToMany(Student::class);
     }
 
-    public function groups()
+    public function group()
     {
-        return $this->belongsTo(Group::class);
+    return $this->belongsTo(Group::class);
     }
 }

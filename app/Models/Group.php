@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Student;
 use App\Models\User;
+use App\Models\Attendance;
 
 class Group extends Model
 {
@@ -34,7 +35,14 @@ class Group extends Model
     
         public function students()
         {
-        return $this->belongsToMany(Student::class);
+        return $this->belongsToMany(Student::class,'group_student');
+        //return $this->belongsToMany('App\Models\Student','group_student','group_id','student_id');
+        }
+        //ap用
+        public function apstudents()
+        {
+        return $this->belongsToMany(Student::class,'ap_student');
+        //return $this->belongsToMany('App\Models\Student','ap_student','group_id','student_id');
         }
     
         public function users()
@@ -44,7 +52,8 @@ class Group extends Model
     
         public function attendances()
         {
-        return $this->belongsToMany(Attendance::class);
+        return $this->hasMany(Attendance::class);
         }
+
         
 }

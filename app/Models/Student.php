@@ -45,7 +45,16 @@ class Student extends Model
     public function groups()
     {
     return $this->belongsToMany(Group::class);
+    //return $this->belongsToMany('App\Models\Group','group_student','group_id','student_id');
     }
+
+    //ap用
+    public function apgroups()
+    {
+    return $this->belongsToMany(Group::class, 'ap_student');
+    //return $this->belongsToMany('App\Models\Group','ap_student','group_id','student_id');
+    }
+
 
 
 }

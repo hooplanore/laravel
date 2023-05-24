@@ -22,9 +22,6 @@ class StudentController extends Controller
         $students = Student::searchStudents($request->search)->with(['groups' => function ($query) {
             $query->select('groups.name','group_category');
         }])->select('id','name','kana','email','tel','gender','birthday','status')->paginate(50);
-    
-
-        //dd($students);
 
         // $students = Student::searchStudents($request->search)
         // ->with('groups')->select('id','groups','name','kana','email','tel','gender','status')->paginate(50);
@@ -61,12 +58,20 @@ class StudentController extends Controller
     public function store(StoreStudentRequest $request)
     {
 
-        $addforms = $request->addforms ?? $request->input('addforms');
+        $addforms = $request->addforms ?? $request->input('addforms'); //リクエストの中にaddformsがあれば取得
 
         // Student インスタンスを作成する前に、各フォームの selectedGroupIds プロパティを配列に格納する
         $selectedGroupIdsArray = [];
         foreach ($addforms as $addform) {
             $selectedGroupIdsArray[] = $addform['selectedGroupIds'];
+        }
+
+        $addapforms = $request->addapforms ?? $request->input('addapforms'); //リクエストの中にaddformsがあれば取得
+
+        // Student インスタンスを作成する前に、各フォームの selectedGroupIds プロパティを配列に格納する
+        $selectedApGroupIdsArray = [];
+        foreach ($addapforms as $addapform) {
+            $selectedApGroupIdsArray[] = $addapform['selectedApGroupIds'];
         }
         
         //dd($request->all());
@@ -98,6 +103,14 @@ class StudentController extends Controller
             }
         }
         
+        if (!is_null($request->addapforms)) {
+            $selectedApGroupIds = array_column($request->addapforms, 'selectedApGroupIds'); //選択されたグループIDの配列を取得
+            foreach ($selectedApGroupIds as $groupId) {
+                $apgroup = Group::find($groupId); //選択されたグループのモデルを取得
+                $apgroup->apstudents()->syncWithoutDetaching($student->id); //中間テーブルにレコードを追加
+            }
+        }
+        
         return redirect()->route('students.index')
             ->with([
                 'message' => '登録しました',
@@ -114,9 +127,11 @@ class StudentController extends Controller
     public function show($id)
     {
         $student = Student::with('groups')->findOrFail($id);
-        //dd($students);
+        $apstudent = Student::with('apgroups')->findOrFail($id);
+        //dd($apstudent);
         return Inertia::render('Students/Show',[
-            'student' => $student
+            'student' => $student,
+            'apstudent' => $apstudent
         ]);
     }
 
@@ -129,13 +144,15 @@ class StudentController extends Controller
     public function edit($id)
     {
         $student = Student::with('groups')->findOrFail($id);
-        //$group = Group::all();
+        $groups = Group::select('id','name')->get();
+        $apstudent = Student::with('apgroups')->findOrFail($id);
 
-        //dd($student);
+        //dd($groups);
 
         return Inertia::render('Students/Edit',[
             'student' => $student,
-            //'group' => $group
+            'groups' => $groups,
+            'apstudent' => $apstudent
         ]);
     }
 
@@ -148,6 +165,7 @@ class StudentController extends Controller
      */
     public function update(UpdateStudentRequest $request, Student $student)
     {
+
         $student->name = $request->name;
         $student->kana = $request->kana;
         $student->email = $request->email;
@@ -165,11 +183,23 @@ class StudentController extends Controller
         $student->parent_name = $request->parent_name;
         $student->campaign = $request->campaign;
         $student->memo = $request->memo;
-        $student->status = $request->status;
+        $student->status = $request->status;    
         $student->save();
 
+        if (!is_null($request->addforms)) {
+            $selectedGroupIds = array_column($request->addforms, 'id'); //選択されたグループIDの配列を取得
+            $student->groups()->sync($selectedGroupIds); // 中間テーブルのレコードを更新
+        }
 
-        return to_route('students.index')
+        if (!is_null($request->addapforms)) {
+            $selectedApGroupIds = array_column($request->addapforms, 'id'); //選択されたグループIDの配列を取得
+            $student->apgroups()->sync($selectedApGroupIds); // 中間テーブルのレコードを更新
+        }
+
+        $studentId = $student->id;
+        //dd($studentId);
+
+        return redirect()->route('students.show', ['student' => $studentId])
         ->with([
             'message' => '更新しました',
             'status' => 'success'

@@ -23,4 +23,11 @@ class Instractor extends Model
         'auth',
         'status',
     ];
+    
+    public function groups()
+    {
+    return $this->belongsToMany(Group::class);
+    }
+
+    
 }

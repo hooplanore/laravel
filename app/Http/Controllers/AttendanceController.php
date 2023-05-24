@@ -23,8 +23,12 @@ class AttendanceController extends Controller
             'id','group_category','name','groupdate','grouptime','placename',
             'address','status')->paginate(50);
         
-        $attendances = Attendance::with('groups')->select(
-            'group_id','attendancedate','attendance_count','belongs_count','ap_count', 'stamp_count')->paginate(50);
+        $attendances = Attendance::with('group')
+            ->select('group.id','group.name')
+            ->select(
+            'id','group_id','attendancedate','attendance_count','belongs_count','ap_count', 'stamp_count')
+            ->orderBy('attendancedate', 'desc')
+            ->paginate(50);
 
              //dd($attendances);
 
@@ -41,7 +45,11 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        //
+        $groups = Group::all();
+
+        return Inertia::render('Attendances/Create', [
+            'groups' => $groups,
+        ]);
     }
 
     /**
@@ -65,10 +73,12 @@ class AttendanceController extends Controller
     {
         $group = Group::with('students')->findOrFail($id);
         $user = Group::with('users')->findOrFail($id);
-//dd($group);
+        $attendance = Attendance::findOrFail($id);
+//dd($attendance);
         return Inertia::render('Attendances/Show',[
             'group' => $group,
             'user' => $user,
+            'attendance' => $attendance
         ]);
     }
 

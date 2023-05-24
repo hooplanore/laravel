@@ -19,11 +19,12 @@ class GroupController extends Controller
     public function index(Request $request)
     {
         $groups = Group::searchGroups($request->search)
+        ->with('students')->select('id','name')
         ->select(
             'id','group_category','name','groupdate','grouptime','placename',
             'address','status')->paginate(50);
 
-            // dd($students);
+             //dd($groups);
 
         return Inertia::render('Groups/Index',[
             'groups' => $groups
@@ -74,10 +75,12 @@ class GroupController extends Controller
     {
         $group = Group::with('students')->findOrFail($id);
         $user = Group::with('users')->findOrFail($id);
-//dd($group);
+        $apgroup = Group::with('apstudents')->findOrFail($id);
+        //dd($group);
         return Inertia::render('Groups/Show',[
             'group' => $group,
             'user' => $user,
+            'apgroup' => $apgroup
         ]);
     }
 
@@ -89,6 +92,7 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
+        
         return Inertia::render('Groups/Edit',[
             'group' => $group
         ]);
@@ -114,7 +118,11 @@ class GroupController extends Controller
         $group->save();
 
 
-        return to_route('groups.index')
+        $groupId = $group->id;
+        //dd($studentId);
+
+        return redirect()->route('groups.show', ['group' => $groupId])
+        //return to_route('groups.index')
         ->with([
             'message' => '更新しました',
             'status' => 'success'

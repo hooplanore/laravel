@@ -31,7 +31,7 @@ defineProps({
                                 <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                                 <div class="overflow-x-auto">
 
-                                    <table class="min-w-full text-left text-sm font-light">
+                                    <table class="min-w-full text-left text-sm font-light stshow">
                                         <thead class="border-b font-medium dark:border-neutral-500">
                                         <tr>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ID</th>
@@ -48,7 +48,7 @@ defineProps({
                                         <tbody>
                                         <tr v-for="user in users.data" :key="user.id">
                                             <td class="whitespace-nowrap px-4 py-3">
-                                                <Link :href="route('instractors.show',{instractor:user.id})" class="flex ml-auto text-white bg-green-600 py-1 px-1 hover:bg-gray-600 rounded">{{ user.id }}</Link>
+                                                <Link :href="route('instractors.show',{instractor:user.id})" class="mx-auto text-white bg-green-600 py-1 px-1 hover:bg-gray-600 rounded">詳細</Link>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ user.name }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ user.kana }}</td>

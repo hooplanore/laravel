@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use \App\Models\Student;
+use \App\Models\User;
 use \App\Models\Attendance;
 
 class DatabaseSeeder extends Seeder
@@ -24,7 +25,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        \App\Models\Group::factory(1000)->create();
+        \App\Models\Group::factory(100)->create();
 
         $groups = \App\Models\Group::all();
 
@@ -32,6 +33,13 @@ class DatabaseSeeder extends Seeder
         ->each(function(Student $student) use ($groups){
             $student->groups()->attach(
             $groups->random(rand(1,3))->pluck('id')->toArray()
+            );
+        });
+
+        User::factory(20)->create()
+        ->each(function(User $user) use ($groups){
+            $user->groups()->attach(
+            $groups->random(rand(2,4))->pluck('id')->toArray()
             );
         });
 

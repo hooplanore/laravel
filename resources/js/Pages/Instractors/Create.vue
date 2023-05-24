@@ -7,7 +7,7 @@ import { Core as YubinBangoCore } from "yubinbango-core2";
 
 defineProps({
     errors: Object,
-    instractors:Array
+    groups:Array
 })
 
 const fetchAddress = () => {
@@ -26,25 +26,34 @@ const form = reactive({
     address2: "",
     tel: "",
     gender: "",
-    birthday: ""
+    birthday: "",
+    addforms: [],
 })
+
+const addforms = ref([]); //入力されたデータが入るところ //ref→変更可能な変数を定義(値が変わるもの) 空を定義している
+
+ //サンプル addforms.value = ['テスト1','テスト2']; //.valueでreに値を入れる
+
+const addForm = () => { //追加ボタンをクリックしたときのイベント
+  let form_body = {}; //空のオブジェクト定義
+  form_body = { //form_body上書き
+    selectedGroupIds: "",
+  };
+  addforms.value.push(form_body);//配列にform_bodyを入れる
+
+  console.log(addforms.value);
+};
+
+const deleteForm = (index) => { //削除ボタンをクリックしたときのイベント
+    addforms.value.splice(index, 1);
+};
+
+
 const storeInstractor = () => {
-//   form.addforms = addforms.value;
+  form.addforms = addforms.value;
   Inertia.post('/instractors', form);
 };
-const addforms = ref([]); //入力されたデータが入るところ
 
-// const addForm = () => { //追加ボタンをクリックしたときのイベント
-//   let form_body = {};
-//   form_body = {
-//     selectedGroupIds: "",
-//   };
-//   addforms.value.push(form_body);
-// };
-
-// const deleteForm = (index) => { //削除ボタンをクリックしたときのイベント
-//     addforms.value.splice(index, 1);
-// };
 
 </script>
 
@@ -63,27 +72,28 @@ const addforms = ref([]); //入力されたデータが入るところ
                     <div class="p-6 text-gray-900">
                        <section class="text-gray-600 body-font relative">
 
-
-
-
                         <div class="container px-5 py-8 mx-auto">
                             <div class="lg:w-1/2 md:w-2/3 mx-auto">
-
 
                         <form @submit.prevent="storeInstractor">
                             
 
                             <div class="flex flex-wrap -m-2">
-                                 <!-- <div class="p-2 w-full">
+                                <div class="p-2 w-full">
                                 <div class="relative">
-                                    <label for="selectedGroupIds" class="leading-7 text-sm text-gray-600 pr-4">所属クラス</label>
-                                    <select id="selectedGroupIds" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300"  v-model="form.selectedGroupIds">
+                                    <label class="leading-7 text-sm text-gray-600">担当クラス</label>
+                                    <button type="button" class="ml-4 btn btn-sm btn-outline-success bg-blue-400 px-2 border-r text-white" @click="addForm()">追加</button>
+                                </div>
+                                </div>
+
+                                <div v-for="(addform, index) in addforms" :key="index">
+                                    <!-- <div>{{ addform }}</div> -->
+                                    <select :id="'selectedGroupIds' + index" v-model="addform.selectedGroupIds" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300 my-2">
                                     <option value="">- Select Group -</option>
                                     <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
                                     </select>
-
+                                    <button class="btn btn-outline-danger" @click="deleteForm(index)">×</button>
                                 </div>
-                                </div>  -->
                                 <div class="p-2 w-full">
                                 <div class="relative">
                                     <label for="name" class="leading-7 text-sm text-gray-600">講師名</label>

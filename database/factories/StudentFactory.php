@@ -32,7 +32,7 @@ class StudentFactory extends Factory
             'birthday' => $this->faker->date,
             'joindate' => $this->faker->date,
             'amount_category' => $this->faker->numberBetween(0, 2),
-            'payment' => $this->faker->numberBetween(0, 2),
+            'payment' => $this->faker->numberBetween(0, 1),
             'introducer' => $this->faker->name,
             'parent_name' => $this->faker->name,
             'campaign' => $this->faker->text,

@@ -24,6 +24,7 @@ use App\Http\Controllers\AttendanceController;
 
 Route::get('/students', [StudentsController::class, 'index']);
 
+
 Route::resource('attendances', AttendanceController::class)
 ->middleware(['auth', 'verified']);
 

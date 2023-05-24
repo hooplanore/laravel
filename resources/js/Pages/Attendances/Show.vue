@@ -5,7 +5,8 @@ import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
     group:Object,
-    user:Object
+    user:Object,
+    attendance:Object
 })
 
 </script>
@@ -15,7 +16,7 @@ defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">出席管理</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">出席管理Log</h2>
         </template>
 
         <div class="py-12">
@@ -27,7 +28,12 @@ defineProps({
                             <div class="lg:w-full md:w-2/3 mx-auto">
                             <div class="flex flex-wrap -m-2">
 
-                                <table class="w-full stshow">
+                                <table class="w-full mb-8 stshow">
+
+                                    <tr>
+                                        <th><label for="name" class="whitespace-nowrap">日時</label></th>
+                                        <td>  {{ attendance.attendancedate }}</td>
+                                    </tr>
                                     <tr>
                                         <th><label for="group_category" class="whitespace-nowrap">クラスカテゴリ</label></th>
                                         <td> 
@@ -53,15 +59,21 @@ defineProps({
                                             <tr> 
                                                 <th class="whitespace-nowrap text-center">ID</th>
                                                 <th>生徒名</th>
-                                                <th>支払方法</th>
+                                                <th>支払区分</th>
                                                 <th>ステータス</th>
                                                 <th>出席チェック</th>
                                             </tr>
                                             <tr v-for="student in group.students" :key="group.id"> 
                                                 <td class="whitespace-nowrap text-center">{{ student.id }}</td>
                                                 <td class="whitespace-nowrap text-center">{{ student.name }}</td>
-                                                <td class="whitespace-nowrap text-center">{{ student.payment }}</td>
-                                                <td class="whitespace-nowrap text-center">{{ student.status }}</td>
+                                                <td class="whitespace-nowrap text-center">
+                                                        <span v-if="student.amount_category === 0 ">月謝</span>
+                                                        <span v-if="student.amount_category === 1 ">スタンプ</span>
+                                                        <span v-if="student.amount_category === 2 ">オールパス</span></td>
+                                                <td class="whitespace-nowrap text-center">
+                                                    <span class="bg-blue-500 text-white px-2 py-1 rounded-md"  v-if="student.status === 0 ">在籍</span>
+                                                    <span class="bg-red-500 text-white px-2 py-1 rounded-md"  v-if="student.status === 1 ">休会</span>
+                                                    <span class="bg-gray-500 text-white px-2 py-1 rounded-md"  v-if="student.status === 2 ">退会</span></td>
                                                 <td class="whitespace-nowrap text-center">
                                                     <label>
                                                     <input

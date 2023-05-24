@@ -17,7 +17,7 @@ form.address1 = value.region + value.locality + value.street
 }
 
 
-const form = reactive({
+const form = reactive({ //reactive→refと同じことをしている(オブジェクトを定義)reactiveでできることはrefでもできる
     name : "",
     kana: "",
     email: "",
@@ -37,23 +37,42 @@ const form = reactive({
     memo: "",
     status: "",
     addforms: [],
+    addapforms: [],
 })
-const storeStudent = () => {
-  form.addforms = addforms.value;
-  Inertia.post('/students', form);
-};
-const addforms = ref([]); //入力されたデータが入るところ
+
+const addforms = ref([]); //入力されたデータが入るところ //ref→変更可能な変数を定義(値が変わるもの) 空を定義している
+const addapforms = ref([]); //入力されたデータが入るところ //ref→変更可能な変数を定義(値が変わるもの) 空を定義している
+
+ //サンプル addforms.value = ['テスト1','テスト2']; //.valueでreに値を入れる
 
 const addForm = () => { //追加ボタンをクリックしたときのイベント
-  let form_body = {};
-  form_body = {
+  let form_body = {}; //空のオブジェクト定義
+  form_body = { //form_body上書き
     selectedGroupIds: "",
   };
-  addforms.value.push(form_body);
+  addforms.value.push(form_body);//配列にform_bodyを入れる
+
+  console.log(addforms.value);
+};
+const addApForm = () => { //追加ボタンをクリックしたときのイベント
+  let form_body = {}; //空のオブジェクト定義
+  form_body = { //form_body上書き
+    selectedApGroupIds: "",
+  };
+  addapforms.value.push(form_body);//配列にform_bodyを入れる
 };
 
 const deleteForm = (index) => { //削除ボタンをクリックしたときのイベント
     addforms.value.splice(index, 1);
+};
+const deleteApForm = (index) => { //削除ボタンをクリックしたときのイベント
+    addapforms.value.splice(index, 1);
+};
+
+const storeStudent = () => {
+  form.addforms = addforms.value;
+  form.addapforms = addapforms.value;
+  Inertia.post('/students', form);
 };
 
 </script>
@@ -79,14 +98,35 @@ const deleteForm = (index) => { //削除ボタンをクリックしたときの�
                         <div class="container px-5 py-8 mx-auto">
                             <div class="lg:w-1/2 md:w-2/3 mx-auto">
 
-                        <div class="p-2 w-full">
-                        <div class="relative">
-                        <label class="leading-7 text-sm text-gray-600">所属クラス</label>
-                        <button class="ml-4 btn btn-sm btn-outline-success bg-blue-400 px-2 border-r text-white" @click="addForm()">追加</button>
-                        </div>
-                        </div>
+
                         <form @submit.prevent="storeStudent">
+
+
+                            <div class="p-2 w-full">
+                            <div class="relative">
+                                <label class="leading-7 text-sm text-gray-600">AP出席クラス</label>
+                                <button type="button" class="ml-4 btn btn-sm btn-outline-success bg-blue-400 px-2 border-r text-white" @click="addApForm()">追加</button>
+                            </div>
+                            </div>
+
+                            <div v-for="(addapform, index) in addapforms" :key="index">
+                                <!-- <div>{{ addform }}</div> -->
+                                <select :id="'selectedApGroupIds' + index" v-model="addapform.selectedApGroupIds" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300 my-2">
+                                <option value="">- Select Group -</option>
+                                <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
+                                </select>
+                                <button class="btn btn-outline-danger" @click="deleteApForm(index)">×</button>
+                            </div>
+
+                            <div class="p-2 w-full">
+                            <div class="relative">
+                                <label class="leading-7 text-sm text-gray-600">所属クラス</label>
+                                <button type="button" class="ml-4 btn btn-sm btn-outline-success bg-blue-400 px-2 border-r text-white" @click="addForm()">追加</button>
+                            </div>
+                            </div>
+
                             <div v-for="(addform, index) in addforms" :key="index">
+                                <!-- <div>{{ addform }}</div> -->
                                 <select :id="'selectedGroupIds' + index" v-model="addform.selectedGroupIds" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300 my-2">
                                 <option value="">- Select Group -</option>
                                 <option v-for="group in groups" :value="group.id">{{ group.name }}</option>

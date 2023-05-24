@@ -6,7 +6,8 @@ import { ref } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 
 defineProps({
-    students: Object
+    students: Object,
+    apstudents: Object
 })
 
 const search = ref('')
@@ -23,7 +24,7 @@ Inertia.get(route('students.index', { search: search.value }))
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">生徒一覧</h2>
-
+            <div v-if="$page.props.flash.message" class="bg-blue-200">{{ $page.props.flash.message }}</div> 
         </template>
 
         <div class="py-12">
@@ -47,7 +48,7 @@ Inertia.get(route('students.index', { search: search.value }))
                                 <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                                 <div class="overflow-x-auto">
 
-                                    <table class="min-w-full text-left text-sm font-light">
+                                    <table class="min-w-full text-left text-sm font-light stshow txleft">
                                         <thead class="border-b font-medium dark:border-neutral-500">
                                         <tr>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
@@ -66,21 +67,21 @@ Inertia.get(route('students.index', { search: search.value }))
                                         <tbody>
                                         <tr class="border-b dark:border-neutral-500" v-for="student in students.data" :key="student.id">
                                             <td class="whitespace-nowrap px-4 py-3">
-                                                <Link class="flex ml-auto text-white bg-green-600 py-1 px-2 focus:outline-none hover:bg-gray-600 rounded" :href="route('students.show',{student:student.id})">詳細を見る</Link>
+                                                <Link class="flex ml-auto text-white bg-green-600 py-1 px-2 focus:outline-none hover:bg-gray-600 rounded" :href="route('students.show',{student:student.id})">詳細</Link>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.id }}</td>
                                             
                                             <td class="whitespace-nowrap px-4 py-3">
                                                 <Link :href="route('students.show',{student:student.id})">
-                                                    <span v-for="group in student.groups" :key="student.id">{{ group.name }}クラス_ 
-                                                        <span v-if="group.group_category === 0 " class="bg-red-100 px-1 py-1 rounded-md" >ADV</span>
+                                                    <span v-for="group in student.groups" :key="student.id">{{ group.name }}クラス
+                                                        <!-- <span v-if="group.group_category === 0 " class="bg-red-100 px-1 py-1 rounded-md" >ADV</span>
                                                         <span v-if="group.group_category === 1 " class="bg-green-500 px-1 py-1 rounded-md" >Reg</span>
                                                         <span v-if="group.group_category === 2 " class="bg-green-300 px-1 py-1 rounded-md" >Pre</span>
                                                         <span v-if="group.group_category === 3 " class="bg-yellow-100 px-1 py-1 rounded-md" >Jr.</span>
                                                         <span v-if="group.group_category === 4 " class="bg-pink-100 px-1 py-1 rounded-md" >Kinder</span>
                                                         <span v-if="group.group_category === 5 " class="bg-blue-100 px-1 py-1 rounded-md" >Short</span>
                                                         <span v-if="group.group_category === 6 " class="bg-gray-100 px-1 py-1 rounded-md" >Studio</span>
-                                                        <span v-if="group.group_category === 7 ">その他</span> 
+                                                        <span v-if="group.group_category === 7 ">その他</span>  -->
                                                     / </span></Link>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.name }}</td>

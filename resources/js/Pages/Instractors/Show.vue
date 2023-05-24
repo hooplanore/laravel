@@ -1,12 +1,19 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import { Inertia } from '@inertiajs/inertia';
+import dayjs from 'dayjs';
 
 
 defineProps({
     user:Object
 })
 
+const deleteInstractor = id => {
+    Inertia.delete(route('instractors.destroy', { user: id}),{
+        onBefore: () => confirm('本当に削除しますか？')
+    })
+}
 
 </script>
 
@@ -25,11 +32,11 @@ defineProps({
                        <section class="text-gray-600 body-font relative">
                         <div class="container px-5 py-8 mx-auto">
                         <div class="lg:w-full md:w-full mx-auto">
-                        <div class="flex flex-wrap -m-2">
-                                <div class="p-2 w-full">
-                                <div class="relative">
+                        <div class="w-full lg:flex md:flex-row justify-center">
 
-                                    <table class="w-full stshow">
+                            <div class="lg:w-1/2 md:w-full">
+                                <h2 class="text-2xl subtitle">イントラ詳細</h2>
+                                    <table class="w-full stshow txleft">
                                         <tr>
                                             <th><label for="userid">ID</label></th>
                                             <td><div id="userid">{{ user.id }}</div></td>
@@ -83,9 +90,31 @@ defineProps({
                                                 </div>
                                             </td>
                                         </tr>
+                                    </table>
+
+                                <div class="my-10 p-2 w-full flex justify-center">
+                                <div><Link as="button" :href="route('instractors.edit', { instractor: user.id })" class="mx-4 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">編集する</Link></div>
+                                <div><button @click="deleteInstractor(user.id)" class="mx-4 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除する</button></div>
+                                </div>
+                            </div>
+
+
+                            <div class="lg:w-1/2 md:w-full lg:ml-5 md:mx-2">
+                                <h2 class="text-2xl subtitle">担当クラス一覧</h2>
+
+                                    <table class="w-full stshow">
                                         <tr>
-                                            <th><label for="group">担当クラス</label></th>
-                                            <td><div id="group"><span v-for="group in user.groups" :key="user.id"><Link as="button" :href="route('groups.show',{ group: group.id })" class="text-gray-500 hover:text-indigo-600 py-2">{{ group.name }}クラス</Link> / 
+                                            <th><label>担当クラス</label></th>
+                                            <th><label>クラスカテゴリ</label></th>
+                                            <th><label>更新日時</label></th>
+                                            <th><label>登録日時</label></th>
+                                        </tr>
+                                        <tr v-for="group in user.groups" :key="user.id">
+                                            <td class="text-center">
+                                                <Link as="button" :href="route('groups.show',{ group: group.id })" class="text-gray-500 hover:text-white hover:bg-gray-500 py-2 px-2">{{ group.name }}クラス</Link> 
+                                            </td>
+                                            <td class="text-center">
+                                                <span>
                                                         <span v-if="group.group_category === 0 " class="bg-red-100 px-1 py-1 rounded-md" >ADV</span>
                                                         <span v-if="group.group_category === 1 " class="bg-green-500 px-1 py-1 rounded-md" >Reg</span>
                                                         <span v-if="group.group_category === 2 " class="bg-green-300 px-1 py-1 rounded-md" >Pre</span>
@@ -93,26 +122,15 @@ defineProps({
                                                         <span v-if="group.group_category === 4 " class="bg-pink-100 px-1 py-1 rounded-md" >Kinder</span>
                                                         <span v-if="group.group_category === 5 " class="bg-blue-100 px-1 py-1 rounded-md" >Short</span>
                                                         <span v-if="group.group_category === 6 " class="bg-gray-100 px-1 py-1 rounded-md" >Studio</span>
-                                                        <span v-if="group.group_category === 7 ">その他</span><br> 
-                                                    </span></div></td>
+                                                        <span v-if="group.group_category === 7 ">その他</span><br>
+                                                </span>
+                                            </td> 
+                                            <td class="text-center">{{ dayjs(group.updated_at).format('YYYY-MM-DD') }}</td>
+                                            <td class="text-center">{{ dayjs(group.created_at).format('YYYY-MM-DD') }}</td>
                                         </tr>
                                     </table>
+                            </div>
 
-                                    <div class="my-10 p-2 w-full flex justify-center">
-                                        <div>
-                                        
-                                        </div>
-                                    </div>
-
-                                </div>
-                                </div>
-
-
-                                <div class="p-2 w-1/2">
-                                <div class="relative">
-
-                                </div>
-                                </div>
 
                         </div>
                         </div>
