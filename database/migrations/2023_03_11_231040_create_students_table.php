@@ -33,6 +33,7 @@ return new class extends Migration
             $table->string('campaign')->nullable();
             $table->text('memo')->nullable();
             $table->tinyInteger('status')->default(0);
+            $table->integer('family_id');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
         });

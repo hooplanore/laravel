@@ -21,7 +21,8 @@ class StudentController extends Controller
     {
         $students = Student::searchStudents($request->search)->with(['groups' => function ($query) {
             $query->select('groups.name','group_category');
-        }])->select('id','name','kana','email','tel','gender','birthday','status')->paginate(50);
+        }])->select('id','name','kana','email','tel','gender','birthday','status','family_id')->paginate(50);
+
 
         // $students = Student::searchStudents($request->search)
         // ->with('groups')->select('id','groups','name','kana','email','tel','gender','status')->paginate(50);
@@ -29,7 +30,7 @@ class StudentController extends Controller
         //$students = Student::with('groups')->take(10)->get();
 
         return Inertia::render('Students/Index',[
-            'students' => $students
+            'students' => $students,
         ]);
     }
         
@@ -93,6 +94,7 @@ class StudentController extends Controller
             'introducer' => $request->introducer,
             'parent_name' => $request->parent_name,
             'campaign' => $request->campaign,
+            'family_id' => $request->family_id,
         ]);
         
         if (!is_null($request->addforms)) {
@@ -128,10 +130,15 @@ class StudentController extends Controller
     {
         $student = Student::with('groups')->findOrFail($id);
         $apstudent = Student::with('apgroups')->findOrFail($id);
+        $studentIds = Student::pluck('id')->toArray();
+        $studentStatus = Student::pluck('status')->toArray();
+       //dd($studentStatus);
         //dd($apstudent);
         return Inertia::render('Students/Show',[
             'student' => $student,
-            'apstudent' => $apstudent
+            'apstudent' => $apstudent,
+            'studentIds' => $studentIds,
+            'studentStatus' => $studentStatus
         ]);
     }
 
@@ -183,7 +190,8 @@ class StudentController extends Controller
         $student->parent_name = $request->parent_name;
         $student->campaign = $request->campaign;
         $student->memo = $request->memo;
-        $student->status = $request->status;    
+        $student->status = $request->status;
+        $student->family_id = $request->family_id; 
         $student->save();
 
         if (!is_null($request->addforms)) {

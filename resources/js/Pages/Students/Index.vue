@@ -61,6 +61,7 @@ Inertia.get(route('students.index', { search: search.value }))
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">性別</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">誕生日</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ステータス</th>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">家族ID</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">編集</th>
                                         </tr>
                                         </thead>
@@ -99,6 +100,7 @@ Inertia.get(route('students.index', { search: search.value }))
                                                         <span class="bg-red-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.status === 1 ">休会</span>
                                                         <span class="bg-gray-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.status === 2 ">退会</span>
                                             </td>
+                                            <td class="whitespace-nowrap px-4 py-3">{{ student.family_id }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">
                                                 <Link as="button" :href="route('students.edit',{student:student.id})" class="flex ml-auto text-white bg-black border-0 py-1 px-1 focus:outline-none hover:bg-gray-600 rounded">編集する</Link>
                                             </td>

@@ -18,6 +18,13 @@
 .txleft td{
     text-align: left;
 }
+.txcenter{
+    text-align: center!important;
+}
+
+.tfull{
+    width: 100%!important;
+}
 
 .stshow th{
     padding: 10px;

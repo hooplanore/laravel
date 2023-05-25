@@ -38,6 +38,7 @@ class StudentFactory extends Factory
             'campaign' => $this->faker->text,
             'memo' => $this->faker->realText(50),
             'status' => $this->faker->numberBetween(0, 2),
+            'family_id' => $this->faker->numberBetween(0, 1000),
         ];
     }
 }

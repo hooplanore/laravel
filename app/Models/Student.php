@@ -28,6 +28,7 @@ class Student extends Model
         'campaign',
         'memo',
         'status',
+        'family_id',
     ];
 
     public function scopeSearchStudents($query, $input = null)

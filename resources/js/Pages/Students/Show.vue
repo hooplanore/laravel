@@ -3,17 +3,48 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
 
-
-defineProps({
+const props = defineProps({
     student:Object,
-    apstudent:Object
+    apstudent:Object,
+    studentIds: {
+    type: Object, // 配列ではなくオブジェクトであることを指定
+    default: () => ({})
+    }, // デフォルトは空のオブジェクト,
+    studentStatus: {
+    type: Object, // 配列ではなくオブジェクトであることを指定
+    default: () => ({}) // デフォルトは空のオブジェクト
+    }
 })
+
+console.log(props.studentStatus);
+
+// 家族割判定
+import { computed } from 'vue';
+
+//idがあればid番号をsdに格納し-1をしてssに格納
+const sd = props.studentIds[props.student.family_id] || '';
+const ss = sd -1;
+//家族IDを格納
+const sp = props.student.family_id;
+
+//一致したIDのstatusを格納
+const idStatus = props.studentStatus[ss];
+
+const isEligibleForDiscount = computed(() => {
+//   const status = props.studentIds[props.student.family_id] || '';
+  return sp === ss && idStatus === 0 ? '家族割' : '---';
+});
+
+ console.log(ss);
+ console.log(idStatus);
 
 const deleteStudent = id => {
     Inertia.delete(route('students.destroy', { student: id}),{
         onBefore: () => confirm('本当に削除しますか？')
     })
 }
+
+
 </script>
 
 <template>
@@ -30,20 +61,19 @@ const deleteStudent = id => {
                        <section class="text-gray-600 body-font relative">
                         <div class="container px-1 py-8 mx-auto">
 
-                                    <div class="w-full mx-auto lg:flex md:flex-row justify-center">
-                                    <div class="lg:w-1/2 md:w-full">
-                                    <h2 class="text-2xl subtitle">生徒詳細 ({{ student.name }})</h2>
-                                    <table class="w-full stshow txleft">
+                                    
+                                    <table class="w-full stshow txleft mb-10">
                                         <tr>
                                             <th><label for="name" class="whitespace-nowrap">所属クラス</label></th>
                                             <td>
-                                                <table class="w-full divide-y divide-gray-200 mb-4">
+                                                <table class="tfull divide-y divide-gray-200 mb-4 mr-0">
                                                 <div id="group">
                                                     <tr>
-                                                        <td class="font-bold">クラス名</td>
-                                                        <td class="font-bold">カテゴリ</td>
-                                                        <td class="font-bold">支払区分</td>
-                                                        <td class="font-bold">月謝金額</td>
+                                                        <td class="font-bold txcenter">クラス名</td>
+                                                        <td class="font-bold txcenter">カテゴリ</td>
+                                                        <td class="font-bold txcenter">支払区分</td>
+                                                        <td class="font-bold txcenter">割引</td>
+                                                        <td class="font-bold txcenter">月謝金額</td>
                                                     </tr>
                                                     <tr v-for="group in student.groups" :key="student.id">
                                                         <td>
@@ -65,12 +95,22 @@ const deleteStudent = id => {
                                                         <span v-if="student.amount_category === 2 ">オールパス</span>
                                                         </td>
                                                         <td>
-                                                        <span v-if="group.group_category === 6 || group.group_category === 7 "></span>
+                                                        <!-- <span v-if="student.amount_category === 0 ">家族割</span>
+                                                        <span v-if="student.amount_category === 1 ">ADV複数所属</span>
+                                                        <span v-if="student.amount_category === 2 ">ADV割引</span> -->
+                                                        </td>
+                                                        <td>
+                                                        <span v-if="group.group_category === 6 || group.group_category === 7 ">---</span>
                                                         <span v-else-if="student.amount_category === 2 ">¥10500</span><!--Allpass-->
                                                         <span v-else-if="student.amount_category === 1 ">¥8400</span><!--Allpass-->
                                                         <span v-else-if="group.group_category === 0 ">¥10500</span><!--ADV-->
+                                                        <span v-else-if="group.group_category === 1 && sp === ss && idStatus === 0 ">¥7100</span><!--Regular-->
                                                         <span v-else-if="group.group_category === 1 ">¥7400</span><!--Regular-->
+                                                        <span v-else-if="group.group_category === 2 && sp === ss && idStatus === 0 ">¥6200</span>
                                                         <span v-else-if="group.group_category === 2 ">¥6500</span><!--Pre-->
+                                                        <span v-else-if="group.group_category === 3 && sp === ss && idStatus === 0 ">¥5200</span>
+                                                        <span v-else-if="group.group_category === 4 && sp === ss && idStatus === 0 ">¥5200</span>
+                                                        <span v-else-if="group.group_category === 5 && sp === ss && idStatus === 0 ">¥5200</span>
                                                         <span v-else-if="group.group_category === 3 || group.group_category === 4 || group.group_category === 5 ">¥5500</span>
                                                     </td>
                                                     </tr>
@@ -78,9 +118,16 @@ const deleteStudent = id => {
                                                 </table>
                                             </td>
                                         </tr>
+                                    </table>
+
+                                    <div class="w-full mx-auto lg:flex md:flex-row justify-center">
+                                    <div class="lg:w-1/2 md:w-full">
+                                    <h2 class="text-2xl subtitle">生徒詳細 ({{ student.name }})</h2>
+
+                                    <table class="w-full stshow txleft">
                                         <tr>
-                                            <th><label for="name">名前</label></th>
-                                            <td><div id="name">{{ student.name }}</div></td>
+                                            <th><label for="name">ID</label></th>
+                                            <td><div id="name">{{ student.id }}</div></td>
                                         </tr>
                                         <tr>
                                             <th><label for="kana">カナ</label></th>
@@ -154,6 +201,22 @@ const deleteStudent = id => {
                                                 </div>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <th><label for="familyId">家族ID</label></th>
+                                            <td>
+                                                <div id="family_id">
+                                                    {{ student.family_id }}
+                                                </div>
+                                            </td>
+                                            </tr>
+  <tr>
+    <th><label for="discount">割引区分</label></th>
+    <td>
+      <div id="discount">
+        {{ isEligibleForDiscount }}
+      </div>
+    </td>
+  </tr>
                                     </table>
 
                                     <div class="my-10 p-2 w-full flex justify-center">

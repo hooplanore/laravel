@@ -33,6 +33,7 @@ const form = reactive({
     campaign: props.student.campaign,
     memo: props.student.memo,
     status: props.student.status,
+    family_id: props.student.family_id,
     addforms: [],
     apgroupnames: props.apstudent.apgroups.map(group => group.name), // studentに紐付いたすべてのグループ名を配列として取得
     addapforms: [],
@@ -206,6 +207,10 @@ const updateStudent = id => {
                         <input type="radio" id="status" name="status" v-model="form.status" value="2">
                         <label for="status2" class="ml-2 mr-4">退会</label>
                     </td>
+                </tr>
+                <tr>
+                    <th>家族ID</th>
+                    <td><input type="text" id="family_id" name="family_id" v-model="form.family_id" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></td>
                 </tr>
             </table>
 

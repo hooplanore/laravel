@@ -17,9 +17,12 @@ class AttendanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $groups = Group::select(
+
+        $groups = Group::searchGroups($request->search)
+        ->with('students')->select('id','name')
+        ->select(
             'id','group_category','name','groupdate','grouptime','placename',
             'address','status')->paginate(50);
         
