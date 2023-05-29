@@ -43,7 +43,6 @@ const deleteStudent = id => {
                                 <h2 class="text-2xl subtitle">所属生徒一覧</h2>
                                     <table class="w-full stshow">
                                             <tr> 
-                                                <th class="whitespace-nowrap text-center"></th>
                                                 <th>生徒名</th>
                                                 <th>支払区分</th>
                                                 <th>支払方法</th>
@@ -51,8 +50,7 @@ const deleteStudent = id => {
                                                 <th>出席管理</th>
                                             </tr>
                                             <tr v-for="student in group.students" :key="group.id">
-                                                <td class="whitespace-nowrap text-center"><Link class="text-white bg-green-600 py-1 px-1 hover:bg-gray-600 rounded" :href="route('students.show',{student:student.id})">詳細</LINK></td>
-                                                <td class="whitespace-nowrap text-center">{{ student.name }}</td>
+                                                <td class="whitespace-nowrap text-center"><Link class="py-1 px-1 hover:bg-gray-600 hover:text-white" :href="route('students.show',{student:student.id})">{{ student.name }}</LINK></td>
                                                 <td class="whitespace-nowrap text-center">
                                                     <span v-if="student.amount_category === 0 ">月謝</span>
                                                     <span v-if="student.amount_category === 1 ">スタンプ</span>
@@ -122,14 +120,15 @@ const deleteStudent = id => {
                                         <th><label for="group_category" class="whitespace-nowrap">クラスカテゴリ</label></th>
                                         <td> 
                                             <div id="group_category" class="whitespace-nowrap">
-                                            <span v-if="group.group_category === 0 ">ADV</span>
+                                                {{ group.groupcategory.name }}
+                                            <!-- <span v-if="group.group_category === 0 ">ADV</span>
                                                 <span v-if="group.group_category === 1 ">Regular</span>
                                                 <span v-if="group.group_category === 2 ">Pre</span>
                                                 <span v-if="group.group_category === 3 ">Jr.</span>
                                                 <span v-if="group.group_category === 4 ">Kinder</span>
                                                 <span v-if="group.group_category === 5 ">Short</span>
                                                 <span v-if="group.group_category === 6 ">Studio</span>
-                                                <span v-if="group.group_category === 7 ">その他</span>
+                                                <span v-if="group.group_category === 7 ">その他</span> -->
                                             </div>
                                         </td>
                                     </tr>

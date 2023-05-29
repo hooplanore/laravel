@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
+use App\Models\Groupcategory;
 use App\Models\Group;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -17,15 +18,14 @@ class GroupController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   
+
         $groups = Group::searchGroups($request->search)
-        ->with('students')->select('id','name')
+        ->with('students', 'groupcategory')
         ->select(
-            'id','group_category','name','groupdate','grouptime','placename',
+            'id','groupcategory_id','name','groupdate','grouptime','placename',
             'address','status')->paginate(50);
-
-             //dd($groups);
-
+        //dd($groups);
         return Inertia::render('Groups/Index',[
             'groups' => $groups
         ]);
@@ -49,13 +49,14 @@ class GroupController extends Controller
      */
     public function store(StoreGroupRequest $request)
     {
+        //dd($request);
         Group::create([
-            'group_category' => $request->group_category,
+            'groupcategory_id' => $request->groupcategory_id,
             'name' => $request->name,
             'groupdate' => $request->groupdate,
             'grouptime' => $request->grouptime,
             'placename' => $request->placename,
-            'address' => $request->address,
+            'address' => $request->address
         ]);
 
         return to_route('groups.index')
@@ -73,7 +74,7 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        $group = Group::with('students')->findOrFail($id);
+        $group = Group::with('students', 'groupcategory')->findOrFail($id);
         $user = Group::with('users')->findOrFail($id);
         $apgroup = Group::with('apstudents')->findOrFail($id);
         //dd($group);
@@ -108,7 +109,7 @@ class GroupController extends Controller
     public function update(UpdateGroupRequest $request, Group $group)
     {
         
-        $group->group_category = $request->group_category;
+        $group->groupcategory_id = $request->groupcategory_id;
         $group->name = $request->name;
         $group->groupdate = $request->groupdate;
         $group->grouptime = $request->grouptime;

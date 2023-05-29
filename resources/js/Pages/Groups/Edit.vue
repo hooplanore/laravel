@@ -10,7 +10,7 @@ const props = defineProps({
 
 const form = reactive({
     id: props.group.id,
-    group_category : props.group.group_category,
+    groupcategory_id : props.group.groupcategory_id,
     name : props.group.name,
     groupdate: props.group.groupdate,
     grouptime: props.group.grouptime,
@@ -47,22 +47,20 @@ const updateGroup = id => {
                                     <tr>
                                         <th class="whitespace-nowrap text-center"><label>カテゴリ</label></th>
                                         <td>
-                                            <input type="radio" id="group_category" name="group_category" v-model="form.group_category" value="0">
-                                            <label for="group_category0" class="ml-2 mr-4">ADV</label>
-                                            <input type="radio" id="group_category" name="group_category" v-model="form.group_category" value="1">
-                                            <label for="group_category1" class="ml-2 mr-4">Regular</label>
-                                            <input type="radio" id="group_category" name="group_category" v-model="form.group_category" value="2">
-                                            <label for="group_category2" class="ml-2 mr-4">Pre</label>
-                                            <input type="radio" id="group_category" name="group_category" v-model="form.group_category" value="3">
-                                            <label for="group_category3" class="ml-2 mr-4">Jr.</label>
-                                            <input type="radio" id="group_category" name="group_category" v-model="form.group_category" value="4">
-                                            <label for="group_category4" class="ml-2 mr-4">Kinder</label>
-                                            <input type="radio" id="group_category" name="group_category" v-model="form.group_category" value="5">
-                                            <label for="group_category5" class="ml-2 mr-4">Short</label>
-                                            <input type="radio" id="group_category" name="group_category" v-model="form.group_category" value="6">
-                                            <label for="group_category6" class="ml-2 mr-4">Studio</label>
-                                            <input type="radio" id="group_category" name="group_category" v-model="form.group_category" value="7">
-                                            <label for="group_category7" class="ml-2 mr-4">その他</label>
+                                            <input type="radio" id="groupcategory_id" name="groupcategory_id" v-model="form.groupcategory_id" value="1">
+                                            <label for="groupcategory_id0" class="ml-2 mr-4">ADV</label>
+                                            <input type="radio" id="groupcategory_id" name="groupcategory_id" v-model="form.groupcategory_id" value="2">
+                                            <label for="groupcategory_id1" class="ml-2 mr-4">Regular</label>
+                                            <input type="radio" id="groupcategory_id" name="groupcategory_id" v-model="form.groupcategory_id" value="3">
+                                            <label for="groupcategory_id2" class="ml-2 mr-4">Pre</label>
+                                            <input type="radio" id="groupcategory_id" name="groupcategory_id" v-model="form.groupcategory_id" value="4">
+                                            <label for="groupcategory_id3" class="ml-2 mr-4">Jr.</label>
+                                            <input type="radio" id="groupcategory_id" name="groupcategory_id" v-model="form.groupcategory_id" value="5">
+                                            <label for="groupcategory_id4" class="ml-2 mr-4">Kinder</label>
+                                            <input type="radio" id="groupcategory_id" name="groupcategory_id" v-model="form.groupcategory_id" value="6">
+                                            <label for="groupcategory_id5" class="ml-2 mr-4">Short</label>
+                                            <input type="radio" id="groupcategory_id" name="groupcategory_id" v-model="form.groupcategory_id" value="7">
+                                            <label for="groupcategory_id6" class="ml-2 mr-4">Studio</label>
                                         </td>
                                     </tr>
                                     <tr>

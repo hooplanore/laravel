@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Attendance;
+use App\Models\Groupcategory;
 
 class Group extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'gourp_category',
+        'groupcategory_id',
         'name',
         'groupdate',
         'grouptime',
@@ -31,6 +32,11 @@ class Group extends Model
         ->orWhere('group_category', 'like', $input . '%');
         }
         }
+        }
+
+        public function groupcategory()
+        {
+        return $this->belongsTo(Groupcategory::class);
         }
     
         public function students()

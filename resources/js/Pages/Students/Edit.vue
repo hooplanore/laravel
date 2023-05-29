@@ -26,8 +26,8 @@ const form = reactive({
     gender: props.student.gender,
     birthday: props.student.birthday,
     joindate: props.student.joindate,
-    amount_category: props.student.amount_category,
-    payment: props.student.payment,
+    // amount_category: props.student.amount_category,
+    // payment: props.student.payment,
     introducer: props.student.introducer,
     parent_name: props.student.parent_name,
     campaign: props.student.campaign,
@@ -165,7 +165,7 @@ const updateStudent = id => {
                     <th>入会日</th>
                     <td><input type="date" id="joindate" name="joindate" v-model="form.joindate" class="lg:w-1/4 md:w-full sm:w-full  bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <th>支払区分</th>
                     <td>
                         <input type="radio" id="amount_category" name="amount_category" v-model="form.amount_category" value="0">
@@ -184,7 +184,7 @@ const updateStudent = id => {
                         <input type="radio" id="payment" name="payment" v-model="form.payment" value="1">
                         <label for="payment1" class="ml-2 mr-4">PayPay</label>
                     </td>
-                </tr>
+                </tr> -->
                 <tr>
                     <th>紹介者</th>
                     <td><input type="text" id="introducer" name="introducer" v-model="form.introducer" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></td>

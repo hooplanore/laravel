@@ -20,10 +20,10 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $students = Student::searchStudents($request->search)->with(['groups' => function ($query) {
-            $query->select('groups.name','group_category');
+            $query->select('groups.name','groupcategory_id');
         }])->select('id','name','kana','email','tel','gender','birthday','status','family_id')->paginate(50);
 
-
+        
         // $students = Student::searchStudents($request->search)
         // ->with('groups')->select('id','groups','name','kana','email','tel','gender','status')->paginate(50);
 
@@ -89,8 +89,8 @@ class StudentController extends Controller
             'gender' => $request->gender,
             'birthday' => $request->birthday,
             'joindate' => $request->joindate,
-            'amount_category' => $request->amount_category,
-            'payment' => $request->payment,
+            // 'amount_category' => $request->amount_category,
+            // 'payment' => $request->payment,
             'introducer' => $request->introducer,
             'parent_name' => $request->parent_name,
             'campaign' => $request->campaign,
@@ -130,15 +130,15 @@ class StudentController extends Controller
     {
         $student = Student::with('groups')->findOrFail($id);
         $apstudent = Student::with('apgroups')->findOrFail($id);
-        $studentIds = Student::pluck('id')->toArray();
-        $studentStatus = Student::pluck('status')->toArray();
-       //dd($studentStatus);
+        $studentIds = Student::select('id','name','status')->get();
+        $group = Group::with('groupcategory')->get();
+       //dd($studentIds);
         //dd($apstudent);
         return Inertia::render('Students/Show',[
             'student' => $student,
             'apstudent' => $apstudent,
             'studentIds' => $studentIds,
-            'studentStatus' => $studentStatus
+            'group' => $group
         ]);
     }
 
@@ -184,8 +184,8 @@ class StudentController extends Controller
         $student->gender = $request->gender;
         $student->birthday = $request->birthday;
         $student->joindate = $request->joindate;
-        $student->amount_category = $request->amount_category;
-        $student->payment = $request->payment;
+        // $student->amount_category = $request->amount_category;
+        // $student->payment = $request->payment;
         $student->introducer = $request->introducer;
         $student->parent_name = $request->parent_name;
         $student->campaign = $request->campaign;

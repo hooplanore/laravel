@@ -23,7 +23,7 @@ class AttendanceController extends Controller
         $groups = Group::searchGroups($request->search)
         ->with('students')->select('id','name')
         ->select(
-            'id','group_category','name','groupdate','grouptime','placename',
+            'id','groupcategory_id','name','groupdate','grouptime','placename',
             'address','status')->paginate(50);
         
         $attendances = Attendance::with('group')

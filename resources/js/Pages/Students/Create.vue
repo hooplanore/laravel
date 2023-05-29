@@ -29,13 +29,14 @@ const form = reactive({ //reactive→refと同じことをしている(オブジ
     gender: "",
     birthday: "",
     joindate: "",
-    amount_category: "",
-    payment: "",
+    // amount_category: "",
+    // payment: "",
     introducer: "",
     parent_name: "",
     campaign: "",
     memo: "",
     status: "",
+    family_id:"",
     addforms: [],
     addapforms: [],
 })
@@ -201,8 +202,6 @@ const storeStudent = () => {
                                     <label for="gender0" class="ml-2 mr-4">女</label>
                                     <input type="radio" id="gender" name="gender" v-model="form.gender" value="1">
                                     <label for="gender1" class="ml-2 mr-4">男</label>
-                                    <input type="radio" id="gender" name="gender" v-model="form.gender" value="2">
-                                    <label for="gender2" class="ml-2 mr-4">他</label>
                                 </div>
                                 </div>
                                 <div class="p-2 w-1/2">
@@ -217,7 +216,7 @@ const storeStudent = () => {
                                     <input type="date" id="joindate" name="joindate" v-model="form.joindate" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                 </div>
                                 </div>
-                                <div class="p-2 w-1/2">
+                                <!-- <div class="p-2 w-1/2">
                                 <div class="relative">
                                     <label for="amount_category" class="leading-7 text-sm text-gray-600 mr-4">支払区分</label>
                                     <select class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300" v-model="form.amount_category">
@@ -237,7 +236,7 @@ const storeStudent = () => {
                                     <option id="payment" name="payment" value="1">PayPay</option>
                                     </select>
                                 </div>
-                                </div>
+                                </div> -->
                                 <div class="p-2 w-full">
                                 <div class="relative">
                                     <label for="introducer" class="leading-7 text-sm text-gray-600">紹介者</label>
@@ -254,6 +253,12 @@ const storeStudent = () => {
                                 <div class="relative">
                                     <label for="campaign" class="leading-7 text-sm text-gray-600">キャンペーン名</label>
                                     <input type="text" id="campaign" name="campaign" v-model="form.campaign" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                </div>
+                                </div>
+                                <div class="p-2 w-full">
+                                <div class="relative">
+                                    <label for="campaign" class="leading-7 text-sm text-gray-600">家族ID</label>
+                                    <input type="text" id="campaign" name="campaign" v-model="form.family_id" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                 </div>
                                 </div>
                                 <!-- <div class="p-2 w-full">
