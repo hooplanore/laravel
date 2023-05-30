@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use app\Models\Group;
+use App\Models\Group;
 
 class Student extends Model
 {
@@ -28,6 +28,7 @@ class Student extends Model
         'campaign',
         'memo',
         'status',
+        'family_id',
     ];
 
     public function scopeSearchStudents($query, $input = null)
@@ -45,7 +46,16 @@ class Student extends Model
     public function groups()
     {
     return $this->belongsToMany(Group::class);
+    //return $this->belongsToMany('App\Models\Group','group_student','group_id','student_id');
     }
+
+    //ap用
+    public function apgroups()
+    {
+    return $this->belongsToMany(Group::class, 'ap_student');
+    //return $this->belongsToMany('App\Models\Group','ap_student','group_id','student_id');
+    }
+
 
 
 }

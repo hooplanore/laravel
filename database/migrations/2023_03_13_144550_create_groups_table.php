@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('group_category')->default(0);
+            $table->foreignId('groupcategory_id');
             $table->string('name');
             $table->string('groupdate')->nullable();
             $table->string('grouptime')->nullable();

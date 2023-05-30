@@ -26,13 +26,14 @@ return new class extends Migration
             $table->tinyInteger('gender');
             $table->date('birthday');
             $table->date('joindate');
-            $table->integer('amount_category');
-            $table->tinyInteger('payment');
+            // $table->integer('amount_category');
+            // $table->tinyInteger('payment');
             $table->string('introducer')->nullable();
             $table->string('parent_name')->nullable();
             $table->string('campaign')->nullable();
             $table->text('memo')->nullable();
             $table->tinyInteger('status')->default(0);
+            $table->integer('family_id')->nullable();
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
         });

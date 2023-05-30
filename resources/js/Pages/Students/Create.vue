@@ -1,12 +1,13 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import { reactive } from 'vue';
+import { reactive,ref } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { Core as YubinBangoCore } from "yubinbango-core2";
 
 defineProps({
-    errors: Object
+    errors: Object,
+    groups:Array
 })
 
 const fetchAddress = () => {
@@ -16,7 +17,7 @@ form.address1 = value.region + value.locality + value.street
 }
 
 
-const form = reactive({
+const form = reactive({ //reactive→refと同じことをしている(オブジェクトを定義)reactiveでできることはrefでもできる
     name : "",
     kana: "",
     email: "",
@@ -28,17 +29,53 @@ const form = reactive({
     gender: "",
     birthday: "",
     joindate: "",
-    amount_category: "",
-    payment: "",
+    // amount_category: "",
+    // payment: "",
     introducer: "",
     parent_name: "",
     campaign: "",
     memo: "",
     status: "",
+    family_id:"",
+    addforms: [],
+    addapforms: [],
 })
-const storeStudent = ()=> {
-    Inertia.post('/students',form)
-}
+
+const addforms = ref([]); //入力されたデータが入るところ //ref→変更可能な変数を定義(値が変わるもの) 空を定義している
+const addapforms = ref([]); //入力されたデータが入るところ //ref→変更可能な変数を定義(値が変わるもの) 空を定義している
+
+ //サンプル addforms.value = ['テスト1','テスト2']; //.valueでreに値を入れる
+
+const addForm = () => { //追加ボタンをクリックしたときのイベント
+  let form_body = {}; //空のオブジェクト定義
+  form_body = { //form_body上書き
+    selectedGroupIds: "",
+  };
+  addforms.value.push(form_body);//配列にform_bodyを入れる
+
+  console.log(addforms.value);
+};
+const addApForm = () => { //追加ボタンをクリックしたときのイベント
+  let form_body = {}; //空のオブジェクト定義
+  form_body = { //form_body上書き
+    selectedApGroupIds: "",
+  };
+  addapforms.value.push(form_body);//配列にform_bodyを入れる
+};
+
+const deleteForm = (index) => { //削除ボタンをクリックしたときのイベント
+    addforms.value.splice(index, 1);
+};
+const deleteApForm = (index) => { //削除ボタンをクリックしたときのイベント
+    addapforms.value.splice(index, 1);
+};
+
+const storeStudent = () => {
+  form.addforms = addforms.value;
+  form.addapforms = addapforms.value;
+  Inertia.post('/students', form);
+};
+
 </script>
 
 <template>
@@ -49,22 +86,67 @@ const storeStudent = ()=> {
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">生徒登録</h2>
         </template>
 
+
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                        <section class="text-gray-600 body-font relative">
 
-                        <form @submit.prevent="storeStudent">
+
+
+
                         <div class="container px-5 py-8 mx-auto">
                             <div class="lg:w-1/2 md:w-2/3 mx-auto">
+
+
+                        <form @submit.prevent="storeStudent">
+
+
+                            <div class="p-2 w-full">
+                            <div class="relative">
+                                <label class="leading-7 text-sm text-gray-600">AP出席クラス</label>
+                                <button type="button" class="ml-4 btn btn-sm btn-outline-success bg-blue-400 px-2 border-r text-white" @click="addApForm()">追加</button>
+                            </div>
+                            </div>
+
+                            <div v-for="(addapform, index) in addapforms" :key="index">
+                                <!-- <div>{{ addform }}</div> -->
+                                <select :id="'selectedApGroupIds' + index" v-model="addapform.selectedApGroupIds" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300 my-2">
+                                <option value="">- Select Group -</option>
+                                <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
+                                </select>
+                                <button class="btn btn-outline-danger" @click="deleteApForm(index)">×</button>
+                            </div>
+
+                            <div class="p-2 w-full">
+                            <div class="relative">
+                                <label class="leading-7 text-sm text-gray-600">所属クラス</label>
+                                <button type="button" class="ml-4 btn btn-sm btn-outline-success bg-blue-400 px-2 border-r text-white" @click="addForm()">追加</button>
+                            </div>
+                            </div>
+
+                            <div v-for="(addform, index) in addforms" :key="index">
+                                <!-- <div>{{ addform }}</div> -->
+                                <select :id="'selectedGroupIds' + index" v-model="addform.selectedGroupIds" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300 my-2">
+                                <option value="">- Select Group -</option>
+                                <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
+                                </select>
+                                <button class="btn btn-outline-danger" @click="deleteForm(index)">×</button>
+                            </div>
+                            
+
                             <div class="flex flex-wrap -m-2">
-                                <!-- <div class="p-2 w-full">
+                                 <!-- <div class="p-2 w-full">
                                 <div class="relative">
-                                    <label for="class_id" class="leading-7 text-sm text-gray-600">所属クラス</label>
-                                    <input type="text" id="class_id" name="class_id" v-model="form.class_id" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <label for="selectedGroupIds" class="leading-7 text-sm text-gray-600 pr-4">所属クラス</label>
+                                    <select id="selectedGroupIds" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300"  v-model="form.selectedGroupIds">
+                                    <option value="">- Select Group -</option>
+                                    <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
+                                    </select>
+
                                 </div>
-                                </div> -->
+                                </div>  -->
                                 <div class="p-2 w-full">
                                 <div class="relative">
                                     <label for="name" class="leading-7 text-sm text-gray-600">生徒名</label>
@@ -120,42 +202,41 @@ const storeStudent = ()=> {
                                     <label for="gender0" class="ml-2 mr-4">女</label>
                                     <input type="radio" id="gender" name="gender" v-model="form.gender" value="1">
                                     <label for="gender1" class="ml-2 mr-4">男</label>
-                                    <input type="radio" id="gender" name="gender" v-model="form.gender" value="2">
-                                    <label for="gender2" class="ml-2 mr-4">他</label>
                                 </div>
                                 </div>
-                                <div class="p-2 w-full">
+                                <div class="p-2 w-1/2">
                                 <div class="relative">
                                     <label for="birthday" class="leading-7 text-sm text-gray-600">生年月日</label>
                                     <input type="date" id="birthday" name="birthday" v-model="form.birthday" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                 </div>
                                 </div>
-                                <div class="p-2 w-full">
+                                <div class="p-2 w-1/2">
                                 <div class="relative">
                                     <label for="joindate" class="leading-7 text-sm text-gray-600">入会日</label>
                                     <input type="date" id="joindate" name="joindate" v-model="form.joindate" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                 </div>
                                 </div>
-                                <div class="p-2 w-full">
+                                <!-- <div class="p-2 w-1/2">
                                 <div class="relative">
                                     <label for="amount_category" class="leading-7 text-sm text-gray-600 mr-4">支払区分</label>
-                                    <input type="radio" id="amount_category" name="amount_category" v-model="form.amount_category" value="0">
-                                    <label for="amount_category0" class="ml-2 mr-4">月謝</label>
-                                    <input type="radio" id="amount_category" name="amount_category" v-model="form.amount_category" value="1">
-                                    <label for="amount_category1" class="ml-2 mr-4">オールパス</label>
-                                    <input type="radio" id="amount_category" name="amount_category" v-model="form.amount_category" value="2">
-                                    <label for="amount_category2" class="ml-2 mr-4">スタンプ</label>
+                                    <select class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300" v-model="form.amount_category">
+                                    <option value="">- 選択する -</option>
+                                    <option id="amount_category" name="amount_category" value="0">月謝</option>
+                                    <option id="amount_category" name="amount_category" value="1">オールパス</option>
+                                    <option id="amount_category" name="amount_category" value="2">スタンプ</option>
+                                    </select>
                                 </div>
                                 </div>
-                                <div class="p-2 w-full">
+                                <div class="p-2 w-1/2">
                                 <div class="relative">
                                     <label class="leading-7 text-sm text-gray-600 mr-4">支払方法</label>
-                                    <input type="radio" id="payment" name="payment" v-model="form.payment" value="0">
-                                    <label for="payment0" class="ml-2 mr-4">現金</label>
-                                    <input type="radio" id="payment" name="payment" v-model="form.payment" value="1">
-                                    <label for="payment1" class="ml-2 mr-4">PayPay</label>
+                                    <select class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300" v-model="form.payment">
+                                    <option value="">- 選択する -</option>
+                                    <option id="payment" name="payment" value="0">現金</option>
+                                    <option id="payment" name="payment" value="1">PayPay</option>
+                                    </select>
                                 </div>
-                                </div>
+                                </div> -->
                                 <div class="p-2 w-full">
                                 <div class="relative">
                                     <label for="introducer" class="leading-7 text-sm text-gray-600">紹介者</label>
@@ -174,6 +255,12 @@ const storeStudent = ()=> {
                                     <input type="text" id="campaign" name="campaign" v-model="form.campaign" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                 </div>
                                 </div>
+                                <div class="p-2 w-full">
+                                <div class="relative">
+                                    <label for="campaign" class="leading-7 text-sm text-gray-600">家族ID</label>
+                                    <input type="text" id="campaign" name="campaign" v-model="form.family_id" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                </div>
+                                </div>
                                 <!-- <div class="p-2 w-full">
                                 <div class="relative">
                                     <label for="memo" class="leading-7 text-sm text-gray-600">備考</label>
@@ -184,9 +271,9 @@ const storeStudent = ()=> {
                                 <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">登録する</button>
                                 </div>
                             </div>
+                        </form>
                             </div>
                         </div>
-                        </form>
                         </section>
                     </div>
                 </div>
