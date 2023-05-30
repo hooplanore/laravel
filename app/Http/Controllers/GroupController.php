@@ -21,10 +21,11 @@ class GroupController extends Controller
     {   
 
         $groups = Group::searchGroups($request->search)
-        ->with('students', 'groupcategory')
+        ->with('students','groupcategory')
         ->select(
             'id','groupcategory_id','name','groupdate','grouptime','placename',
             'address','status')->paginate(50);
+
         //dd($groups);
         return Inertia::render('Groups/Index',[
             'groups' => $groups

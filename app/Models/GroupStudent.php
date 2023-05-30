@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class GroupStudent extends Model
 {
-    use HasFactory;
+    use HasFactory; 
 
     protected $table = 'group_student';
 

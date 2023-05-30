@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             StudentSeeder::class,
-            GroupcategorySeeder::class,
             GroupSeeder::class,
+            GroupcategorySeeder::class,
             AttendanceSeeder::class,
         ]);
 
@@ -33,7 +33,11 @@ class DatabaseSeeder extends Seeder
         Student::factory(1000)->create()
         ->each(function(Student $student) use ($groups){
             $student->groups()->attach(
-            $groups->random(rand(1,3))->pluck('id')->toArray()
+            $groups->random(rand(1,3))->pluck('id')->toArray(),
+            [
+            'payment' => rand(0,1),//支払方法
+            'amount_category' => rand(0,2)//支払区分
+             ],
             );
         });
 
@@ -43,6 +47,7 @@ class DatabaseSeeder extends Seeder
             $groups->random(rand(2,4))->pluck('id')->toArray()
             );
         });
+
 
         Attendance::factory(100)->create();
         

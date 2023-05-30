@@ -52,13 +52,13 @@ const deleteStudent = id => {
                                             <tr v-for="student in group.students" :key="group.id">
                                                 <td class="whitespace-nowrap text-center"><Link class="py-1 px-1 hover:bg-gray-600 hover:text-white" :href="route('students.show',{student:student.id})">{{ student.name }}</LINK></td>
                                                 <td class="whitespace-nowrap text-center">
-                                                    <span v-if="student.amount_category === 0 ">月謝</span>
+                                                    <!-- <span v-if="student.amount_category === 0 ">月謝</span>
                                                     <span v-if="student.amount_category === 1 ">スタンプ</span>
-                                                    <span v-if="student.amount_category === 2 ">オールパス</span>
+                                                    <span v-if="student.amount_category === 2 ">オールパス</span> -->
                                                 </td>
                                                 <td class="whitespace-nowrap text-center">
-                                                    <span v-if="student.payment === 0 ">現金</span>
-                                                    <span v-if="student.payment === 1 ">PayPay</span>
+                                                    <!-- <span v-if="student.payment === 0 ">現金</span>
+                                                    <span v-if="student.payment === 1 ">PayPay</span> -->
                                                 </td>
                                                 <td class="whitespace-nowrap text-center">
                                                     <span class="bg-blue-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.status === 0 ">在籍</span>
@@ -87,13 +87,13 @@ const deleteStudent = id => {
                                                 <td class="whitespace-nowrap text-center"><Link class="text-white bg-green-600 py-1 px-1 hover:bg-gray-600 rounded" :href="route('students.show',{student:apgroup.id})">詳細</Link></td>
                                                 <td class="whitespace-nowrap text-center">{{ apgroup.name }}</td>
                                                 <td class="whitespace-nowrap text-center">
-                                                    <span v-if="apgroup.amount_category === 0 ">月謝</span>
+                                                    <!-- <span v-if="apgroup.amount_category === 0 ">月謝</span>
                                                     <span v-if="apgroup.amount_category === 1 ">スタンプ</span>
-                                                    <span v-if="apgroup.amount_category === 2 ">オールパス</span>
+                                                    <span v-if="apgroup.amount_category === 2 ">オールパス</span> -->
                                                 </td>
                                                 <td class="whitespace-nowrap text-center">
-                                                    <span v-if="apgroup.payment === 0 ">現金</span>
-                                                    <span v-if="apgroup.payment === 1 ">PayPay</span>
+                                                    <!-- <span v-if="apgroup.payment === 0 ">現金</span>
+                                                    <span v-if="apgroup.payment === 1 ">PayPay</span> -->
                                                 </td>
                                                 <td class="whitespace-nowrap text-center">
                                                     

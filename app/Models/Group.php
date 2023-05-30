@@ -33,11 +33,6 @@ class Group extends Model
         }
         }
         }
-
-        public function groupcategory()
-        {
-        return $this->belongsTo(Groupcategory::class);
-        }
     
         public function students()
         {
@@ -59,6 +54,11 @@ class Group extends Model
         public function attendances()
         {
         return $this->hasMany(Attendance::class);
+        }
+
+        public function groupcategory()
+        {
+        return $this->belongsTo(Groupcategory::class);
         }
 
         

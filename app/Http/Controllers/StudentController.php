@@ -23,12 +23,6 @@ class StudentController extends Controller
             $query->select('groups.name','groupcategory_id');
         }])->select('id','name','kana','email','tel','gender','birthday','status','family_id')->paginate(50);
 
-        
-        // $students = Student::searchStudents($request->search)
-        // ->with('groups')->select('id','groups','name','kana','email','tel','gender','status')->paginate(50);
-
-        //$students = Student::with('groups')->take(10)->get();
-
         return Inertia::render('Students/Index',[
             'students' => $students,
         ]);
@@ -59,21 +53,22 @@ class StudentController extends Controller
     public function store(StoreStudentRequest $request)
     {
 
-        $addforms = $request->addforms ?? $request->input('addforms'); //リクエストの中にaddformsがあれば取得
-
+        // $addforms = $request->addforms ?? $request->input('addforms'); //リクエストの中にaddformsがあれば取得
+        // dd($addforms);
         // Student インスタンスを作成する前に、各フォームの selectedGroupIds プロパティを配列に格納する
-        $selectedGroupIdsArray = [];
-        foreach ($addforms as $addform) {
-            $selectedGroupIdsArray[] = $addform['selectedGroupIds'];
-        }
+        // $selectedGroupIdsArray = [];
+        // foreach ($addforms as $addform) {
+        //     $selectedGroupIdsArray[] = $addform['selectedGroupIds'];
+        // }
 
-        $addapforms = $request->addapforms ?? $request->input('addapforms'); //リクエストの中にaddformsがあれば取得
+        //AP用
+        // $addapforms = $request->addapforms ?? $request->input('addapforms'); //リクエストの中にaddformsがあれば取得
 
-        // Student インスタンスを作成する前に、各フォームの selectedGroupIds プロパティを配列に格納する
-        $selectedApGroupIdsArray = [];
-        foreach ($addapforms as $addapform) {
-            $selectedApGroupIdsArray[] = $addapform['selectedApGroupIds'];
-        }
+        // // Student インスタンスを作成する前に、各フォームの selectedGroupIds プロパティを配列に格納する
+        // $selectedApGroupIdsArray = [];
+        // foreach ($addapforms as $addapform) {
+        //     $selectedApGroupIdsArray[] = $addapform['selectedApGroupIds'];
+        // }
         
         //dd($request->all());
         
@@ -97,14 +92,32 @@ class StudentController extends Controller
             'family_id' => $request->family_id,
         ]);
         
+        // if (!is_null($request->addforms)) {
+        //     $selectedGroupIds = array_column($request->addforms, 'selectedGroupIds'); //選択されたグループIDの配列を取得
+        //     foreach ($selectedGroupIds as $groupId) {
+        //         $group = Group::find($groupId); //選択されたグループのモデルを取得
+        //         $group->students()->syncWithoutDetaching($student->id); //中間テーブルにレコードを追加
+        //     }
+        // }
+
         if (!is_null($request->addforms)) {
-            $selectedGroupIds = array_column($request->addforms, 'selectedGroupIds'); //選択されたグループIDの配列を取得
-            foreach ($selectedGroupIds as $groupId) {
-                $group = Group::find($groupId); //選択されたグループのモデルを取得
-                $group->students()->syncWithoutDetaching($student->id); //中間テーブルにレコードを追加
+            foreach ($request->addforms as $addform) {
+                $selectedGroupIds = $addform['selectedGroupIds']; // 選択されたグループIDを取得
+                $selectedAmountcategory = $addform['selectedAmountcategory']; // 選択されたamount_categoryを取得
+                $selectedPayment = $addform['selectedPayment']; // 選択されたpaymentを取得
+        
+                $group = Group::find($selectedGroupIds); // 選択されたグループのモデルを取得
+                $group->students()->syncWithoutDetaching([
+                    $student->id => [
+                        'amount_category' => $selectedAmountcategory,
+                        'payment' => $selectedPayment
+                    ]
+                ]); // 中間テーブルにレコードを追加
             }
         }
         
+
+        //AP用
         if (!is_null($request->addapforms)) {
             $selectedApGroupIds = array_column($request->addapforms, 'selectedApGroupIds'); //選択されたグループIDの配列を取得
             foreach ($selectedApGroupIds as $groupId) {
@@ -128,17 +141,19 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        $student = Student::with('groups')->findOrFail($id);
+        $student = Student::with('groups','group_students')->findOrFail($id);
         $apstudent = Student::with('apgroups')->findOrFail($id);
         $studentIds = Student::select('id','name','status')->get();
         $group = Group::with('groupcategory')->get();
-       //dd($studentIds);
+
+       //dd($student);
         //dd($apstudent);
         return Inertia::render('Students/Show',[
             'student' => $student,
             'apstudent' => $apstudent,
             'studentIds' => $studentIds,
-            'group' => $group
+            'group' => $group,
+            'groupStudents' => $student->group_students,
         ]);
     }
 
@@ -150,16 +165,17 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        $student = Student::with('groups')->findOrFail($id);
+        $student = Student::with('groups','group_students')->findOrFail($id);
         $groups = Group::select('id','name')->get();
         $apstudent = Student::with('apgroups')->findOrFail($id);
 
-        //dd($groups);
+        //dd($student->group_students);
 
         return Inertia::render('Students/Edit',[
             'student' => $student,
             'groups' => $groups,
-            'apstudent' => $apstudent
+            'apstudent' => $apstudent,
+            'groupStudents' => $student->group_students,
         ]);
     }
 
@@ -184,8 +200,6 @@ class StudentController extends Controller
         $student->gender = $request->gender;
         $student->birthday = $request->birthday;
         $student->joindate = $request->joindate;
-        // $student->amount_category = $request->amount_category;
-        // $student->payment = $request->payment;
         $student->introducer = $request->introducer;
         $student->parent_name = $request->parent_name;
         $student->campaign = $request->campaign;
@@ -193,14 +207,27 @@ class StudentController extends Controller
         $student->status = $request->status;
         $student->family_id = $request->family_id; 
         $student->save();
-
+        
+       
         if (!is_null($request->addforms)) {
             $selectedGroupIds = array_column($request->addforms, 'id'); //選択されたグループIDの配列を取得
-            $student->groups()->sync($selectedGroupIds); // 中間テーブルのレコードを更新
+            $selectedAmountcategory = array_column($request->addforms, 'pivot');
+            $pivotData = [];
+            foreach ($selectedAmountcategory as $pivot) {
+                $pivotData[$pivot['group_id']] = [
+                'amount_category' => $pivot['amount_category'],
+                'payment' => $pivot['payment']
+                ];
+            }
+            
+            //dd($pivotData);
+            $student->groups()->sync($selectedGroupIds,$pivotData); // 中間テーブルのレコードを更新
         }
+        
 
         if (!is_null($request->addapforms)) {
             $selectedApGroupIds = array_column($request->addapforms, 'id'); //選択されたグループIDの配列を取得
+
             $student->apgroups()->sync($selectedApGroupIds); // 中間テーブルのレコードを更新
         }
 

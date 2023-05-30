@@ -29,8 +29,6 @@ const form = reactive({ //reactive→refと同じことをしている(オブジ
     gender: "",
     birthday: "",
     joindate: "",
-    // amount_category: "",
-    // payment: "",
     introducer: "",
     parent_name: "",
     campaign: "",
@@ -50,6 +48,8 @@ const addForm = () => { //追加ボタンをクリックしたときのイベン
   let form_body = {}; //空のオブジェクト定義
   form_body = { //form_body上書き
     selectedGroupIds: "",
+    selectedAmountcategory: "",
+    selectedPayment:""
   };
   addforms.value.push(form_body);//配列にform_bodyを入れる
 
@@ -102,23 +102,6 @@ const storeStudent = () => {
 
                         <form @submit.prevent="storeStudent">
 
-
-                            <div class="p-2 w-full">
-                            <div class="relative">
-                                <label class="leading-7 text-sm text-gray-600">AP出席クラス</label>
-                                <button type="button" class="ml-4 btn btn-sm btn-outline-success bg-blue-400 px-2 border-r text-white" @click="addApForm()">追加</button>
-                            </div>
-                            </div>
-
-                            <div v-for="(addapform, index) in addapforms" :key="index">
-                                <!-- <div>{{ addform }}</div> -->
-                                <select :id="'selectedApGroupIds' + index" v-model="addapform.selectedApGroupIds" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300 my-2">
-                                <option value="">- Select Group -</option>
-                                <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
-                                </select>
-                                <button class="btn btn-outline-danger" @click="deleteApForm(index)">×</button>
-                            </div>
-
                             <div class="p-2 w-full">
                             <div class="relative">
                                 <label class="leading-7 text-sm text-gray-600">所属クラス</label>
@@ -127,10 +110,21 @@ const storeStudent = () => {
                             </div>
 
                             <div v-for="(addform, index) in addforms" :key="index">
-                                <!-- <div>{{ addform }}</div> -->
-                                <select :id="'selectedGroupIds' + index" v-model="addform.selectedGroupIds" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300 my-2">
+                                <div>{{ addform }}</div>
+                                <select :id="'selectedGroupIds' + index" v-model="addform.selectedGroupIds" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300 my-2 mr-2">
                                 <option value="">- Select Group -</option>
                                 <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
+                                </select>
+                                <select :id="'selectedAmountcategory' + index" v-model="addform.selectedAmountcategory" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300 my-2 mr-2">
+                                <option value="">- 支払区分 -</option>
+                                <option value="1">月謝</option>
+                                <option value="2">オールパス</option>
+                                <option value="2">スタンプ</option>
+                                </select>
+                                <select :id="'selectedPayment' + index" v-model="addform.selectedPayment" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300 my-2">
+                                <option value="">- 支払方法 -</option>
+                                <option value="1">現金</option>
+                                <option value="2">PayPay</option>
                                 </select>
                                 <button class="btn btn-outline-danger" @click="deleteForm(index)">×</button>
                             </div>
@@ -267,6 +261,23 @@ const storeStudent = () => {
                                     <input type="text" id="memo" name="memo" v-model="form.memo" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                 </div>
                                 </div> -->
+
+                                <div class="p-2 w-full">
+                            <div class="relative">
+                                <label class="leading-7 text-sm text-gray-600">AP出席クラス</label>
+                                <button type="button" class="ml-4 btn btn-sm btn-outline-success bg-blue-400 px-2 border-r text-white" @click="addApForm()">追加</button>
+                            </div>
+                            </div>
+
+                            <div v-for="(addapform, index) in addapforms" :key="index">
+                                <!-- <div>{{ addform }}</div> -->
+                                <select :id="'selectedApGroupIds' + index" v-model="addapform.selectedApGroupIds" class="w-2/1 bg-gray-100 bg-opacity-50 rounded border border-gray-300 my-2">
+                                <option value="">- Select Group -</option>
+                                <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
+                                </select>
+                                <button class="btn btn-outline-danger" @click="deleteApForm(index)">×</button>
+                            </div>
+
                                 <div class="p-2 w-full">
                                 <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">登録する</button>
                                 </div>

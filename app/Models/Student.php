@@ -21,8 +21,8 @@ class Student extends Model
         'gender',
         'birthday',
         'joindate',
-        'amount_category',
-        'payment',
+        // 'amount_category',
+        // 'payment',
         'introducer',
         'parent_name',
         'campaign',
@@ -56,6 +56,11 @@ class Student extends Model
     //return $this->belongsToMany('App\Models\Group','ap_student','group_id','student_id');
     }
 
+    //中間テーブルないの値も紐付け
+    public function group_students()
+    {
+        return $this->belongsToMany(Group::class, 'group_student', 'student_id', 'group_id')->withPivot('amount_category','payment');
+    }
 
 
 }

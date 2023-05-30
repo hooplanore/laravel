@@ -7,10 +7,9 @@ import { Inertia } from '@inertiajs/inertia'
 const props = defineProps({
     student:Object,
     groups:Array,
-    apstudent:Object
+    apstudent:Object,
+    groupStudents:Object
 })
-
-//console.log(props);
 
 const form = reactive({
     id: props.student.id,
@@ -26,30 +25,42 @@ const form = reactive({
     gender: props.student.gender,
     birthday: props.student.birthday,
     joindate: props.student.joindate,
-    // amount_category: props.student.amount_category,
-    // payment: props.student.payment,
     introducer: props.student.introducer,
     parent_name: props.student.parent_name,
     campaign: props.student.campaign,
     memo: props.student.memo,
     status: props.student.status,
     family_id: props.student.family_id,
+
+    amount_category: props.groupStudents.map(group => group.pivot.amount_category),
+    payment:props.groupStudents.map(group => group.pivot.payment),
+    
     addforms: [],
     apgroupnames: props.apstudent.apgroups.map(group => group.name), // studentに紐付いたすべてのグループ名を配列として取得
     addapforms: [],
 })
+
+//console.log(addforms);
+
 const addforms = ref([]); //入力されたデータが入るところ
 
-addforms.value = props.student.groups;
-console.log(props.student.groups);
+// addforms.value = props.student.groups;
+addforms.value = props.groupStudents;
 
-const addForm = () => { //追加ボタンをクリックしたときのイベント
-  let form_body = {};
-  form_body = {
+
+const addForm = () => {
+  const form_body = {
     id: "",
+    pivot: {
+      amount_category: "",
+      payment: ""
+    }
   };
   addforms.value.push(form_body);
 };
+
+
+console.log(addforms);
 
 const deleteForm = (index) => { //削除ボタンをクリックしたときのイベント
     addforms.value.splice(index, 1);
@@ -57,10 +68,7 @@ const deleteForm = (index) => { //削除ボタンをクリックしたときの�
 
 //ap用
 const addapforms = ref([]); //入力されたデータが入るところ
-
 addapforms.value = props.apstudent.apgroups;
-console.log(props.student.groups);
-
 const addApForm = () => { //追加ボタンをクリックしたときのイベント
   let form_body = {};
   form_body = {
@@ -76,7 +84,7 @@ const deleteApForm = (index) => { //削除ボタンをクリックしたとき�
 const updateStudent = id => {
     form.addforms = addforms.value;
     form.addapforms = addapforms.value;
-    console.log(addforms);
+    //console.log(addforms);
     Inertia.put(route('students.update',{ student: id}),form)
 }
 
@@ -90,7 +98,7 @@ const updateStudent = id => {
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">生徒編集</h2>
         </template>
-
+{{props.groupStudents}}
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -111,10 +119,24 @@ const updateStudent = id => {
                     <th><label>所属クラス</label></th>
                     <td>
                         <div v-for="(addform, index) in addforms" :key="index">
-                        <select :id="'selectedGroupIds' + index" v-model="addform.id" class="lg:w-1/4 md:w-full sm:w-full mb-2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <select :id="'selectedGroupIds' + index" v-model="addform.id" class="lg:w-1/5 md:w-full sm:w-full mb-2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                             <option value="">- Select Group -</option>
                             <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
                         </select>
+
+                        <select :id="'selectedAmountcategory' + index" v-model="addforms[index].pivot.amount_category" class="lg:w-1/5 md:w-full sm:w-full mb-2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <option value="" selected>選択する</option>
+                            <option value="0">月謝</option>
+                            <option value="1">オールパス</option>
+                            <option value="2">スタンプ</option>
+                        </select>
+
+                        <select :id="'selectedPayment' + index" v-model="addforms[index].pivot.payment" class="lg:w-1/5 md:w-full sm:w-full mb-2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <option value="" selected>選択する</option>
+                            <option value="0">現金</option>
+                            <option value="1">PayPay</option>
+                        </select>
+
                         <button type="button" class="btn btn-outline-danger ml-4 bg-red-400 text-white px-2 rounded text-sm" @click="deleteForm(index)">削除</button>
                         </div>
                         <button type="button" class="ml-4 btn btn-sm btn-outline-success bg-blue-400 px-2 border-r text-white" @click="addForm()">追加</button>
