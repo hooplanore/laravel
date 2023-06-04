@@ -21,19 +21,22 @@ class AttendanceController extends Controller
     {
 
         $groups = Group::searchGroups($request->search)
-        ->with('students')->select('id','name')
+        ->with('students')
+        ->select('id','name')
         ->select(
             'id','groupcategory_id','name','groupdate','grouptime','placename',
             'address','status')->paginate(50);
-        
+        //dd($groups);
         $attendances = Attendance::with('group')
             ->select('group.id','group.name')
             ->select(
             'id','group_id','attendancedate','attendance_count','belongs_count','ap_count', 'stamp_count')
             ->orderBy('attendancedate', 'desc')
             ->paginate(50);
+            
+        //dd($users);
 
-             //dd($attendances);
+        //dd($attendances);
 
         return Inertia::render('Attendances/Index',[
             'groups' => $groups,

@@ -41,7 +41,6 @@ const form = reactive({
 })
 
 //console.log(addforms);
-
 const addforms = ref([]); //入力されたデータが入るところ
 
 // addforms.value = props.student.groups;
@@ -124,17 +123,17 @@ const updateStudent = id => {
                             <option v-for="group in groups" :value="group.id">{{ group.name }}</option>
                         </select>
 
+                        <select :id="'selectedPayment' + index" v-model="addforms[index].pivot.payment" class="lg:w-1/5 md:w-full sm:w-full mb-2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            <option value="" selected>選択する</option>
+                            <option value="0">現金</option>
+                            <option value="1">PayPay</option>
+                        </select>
+
                         <select :id="'selectedAmountcategory' + index" v-model="addforms[index].pivot.amount_category" class="lg:w-1/5 md:w-full sm:w-full mb-2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                             <option value="" selected>選択する</option>
                             <option value="0">月謝</option>
                             <option value="1">オールパス</option>
                             <option value="2">スタンプ</option>
-                        </select>
-
-                        <select :id="'selectedPayment' + index" v-model="addforms[index].pivot.payment" class="lg:w-1/5 md:w-full sm:w-full mb-2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                            <option value="" selected>選択する</option>
-                            <option value="0">現金</option>
-                            <option value="1">PayPay</option>
                         </select>
 
                         <button type="button" class="btn btn-outline-danger ml-4 bg-red-400 text-white px-2 rounded text-sm" @click="deleteForm(index)">削除</button>

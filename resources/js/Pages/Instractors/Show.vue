@@ -105,7 +105,6 @@ const deleteInstractor = id => {
                                     <table class="w-full stshow">
                                         <tr>
                                             <th><label>担当クラス</label></th>
-                                            <th><label>クラスカテゴリ</label></th>
                                             <th><label>更新日時</label></th>
                                             <th><label>登録日時</label></th>
                                         </tr>
@@ -113,18 +112,6 @@ const deleteInstractor = id => {
                                             <td class="text-center">
                                                 <Link as="button" :href="route('groups.show',{ group: group.id })" class="text-gray-500 hover:text-white hover:bg-gray-500 py-2 px-2">{{ group.name }}クラス</Link> 
                                             </td>
-                                            <td class="text-center">
-                                                <span>
-                                                        <span v-if="group.group_category === 0 " class="bg-red-100 px-1 py-1 rounded-md" >ADV</span>
-                                                        <span v-if="group.group_category === 1 " class="bg-green-500 px-1 py-1 rounded-md" >Reg</span>
-                                                        <span v-if="group.group_category === 2 " class="bg-green-300 px-1 py-1 rounded-md" >Pre</span>
-                                                        <span v-if="group.group_category === 3 " class="bg-yellow-100 px-1 py-1 rounded-md" >Jr.</span>
-                                                        <span v-if="group.group_category === 4 " class="bg-pink-100 px-1 py-1 rounded-md" >Kinder</span>
-                                                        <span v-if="group.group_category === 5 " class="bg-blue-100 px-1 py-1 rounded-md" >Short</span>
-                                                        <span v-if="group.group_category === 6 " class="bg-gray-100 px-1 py-1 rounded-md" >Studio</span>
-                                                        <span v-if="group.group_category === 7 ">その他</span><br>
-                                                </span>
-                                            </td> 
                                             <td class="text-center">{{ dayjs(group.updated_at).format('YYYY-MM-DD') }}</td>
                                             <td class="text-center">{{ dayjs(group.created_at).format('YYYY-MM-DD') }}</td>
                                         </tr>

@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import Pagination from '@/Components/Pagination.vue';
 
 defineProps({
     users: Object
@@ -34,6 +35,7 @@ defineProps({
                                     <table class="min-w-full text-left text-sm font-light stshow">
                                         <thead class="border-b font-medium dark:border-neutral-500">
                                         <tr>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ID</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">氏名</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">カナ</th>
@@ -42,7 +44,6 @@ defineProps({
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">性別</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">誕生日</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ステータス</th>
-                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">編集</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -50,6 +51,7 @@ defineProps({
                                             <td class="whitespace-nowrap px-4 py-3">
                                                 <Link :href="route('instractors.show',{instractor:user.id})" class="mx-auto text-white bg-green-600 py-1 px-1 hover:bg-gray-600 rounded">詳細</Link>
                                             </td>
+                                            <td class="whitespace-nowrap px-4 py-3">{{ user.id }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ user.name }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ user.kana }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ user.email }}</td>
@@ -73,6 +75,7 @@ defineProps({
                             </div>
                             </div>
                         </div>
+                    <Pagination class="mt-6" :links="users.links"></Pagination>
                     </div>
 
                     </section>

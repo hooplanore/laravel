@@ -55,11 +55,8 @@ Inertia.get(route('students.index', { search: search.value }))
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ID</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">所属クラス名</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">氏名</th>
-                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">カナ</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メール</th>
-                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">電話番号</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">性別</th>
-                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">誕生日</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ステータス</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">家族ID</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">編集</th>
@@ -78,15 +75,12 @@ Inertia.get(route('students.index', { search: search.value }))
                                                     / </span></Link>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.name }}</td>
-                                            <td class="whitespace-nowrap px-4 py-3">{{ student.kana }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.email }}</td>
-                                            <td class="whitespace-nowrap px-4 py-3">{{ student.tel }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">
                                                         <span class="bg-red-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.gender === 0 ">女</span>
                                                         <span class="bg-blue-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.gender === 1 ">男</span>
                                                         <span class="bg-yellow-100 text-xs px-2 py-2 font-bold rounded-md" v-if="student.gender === 2 ">他</span>
                                             </td>
-                                            <td class="whitespace-nowrap px-4 py-3">{{ student.birthday }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">
                                                         <span class="bg-blue-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.status === 0 ">在籍</span>
                                                         <span class="bg-red-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.status === 1 ">休会</span>

@@ -29,4 +29,6 @@ class Attendance extends Model
     {
     return $this->belongsTo(Group::class);
     }
+
+
 }

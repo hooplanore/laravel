@@ -19,7 +19,7 @@ class InstractorController extends Controller
     public function index()
     {
         $users = User::with('groups')->select('id','name')
-        ->select('id','name','kana','email','tel','gender','birthday','status')->paginate(30);
+        ->select('id','name','kana','email','tel','gender','birthday','status')->orderBy('status')->paginate(30);
 
         //dd($users);
     

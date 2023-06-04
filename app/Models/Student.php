@@ -21,8 +21,6 @@ class Student extends Model
         'gender',
         'birthday',
         'joindate',
-        // 'amount_category',
-        // 'payment',
         'introducer',
         'parent_name',
         'campaign',
