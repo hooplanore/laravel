@@ -1,3 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.stshow {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    border: 1px solid #efefef;
+    border-collapse: separate;
+    overflow: hidden;
+    border-spacing: 0;
+    border-radius: 10px;
+    text-align: center;
+}
+.stshow td{
+    padding: 10px;
+    border-bottom: solid 1px #efefef;
+}
+.txleft td{
+    text-align: left;
+}
+.txcenter{
+    text-align: center!important;
+}
+
+.stshow tr{
+    width: 100%!important;
+}
+
+.stshow th{
+    padding: 10px;
+    background-color:#efefef;
+    border-bottom: solid 1px #fff;
+}
+
+.subtitle{
+    position: relative;
+    padding: 1rem .5rem;
+    margin-bottom: 20px;
+}
+
+.subtitle:before{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    content: '';
+    border-radius: 3px;
+    background-image: -webkit-gradient(linear, right top, left top, from(#2af598), to(#009efd));
+    background-image: -webkit-linear-gradient(right, #2af598 0%, #009efd 100%);
+    background-image: linear-gradient(to left, #2af598 0%, #009efd 100%);
+}

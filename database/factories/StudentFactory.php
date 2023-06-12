@@ -28,16 +28,17 @@ class StudentFactory extends Factory
             'address1' => $this->faker->city,
             'address2' => $this->faker->streetAddress,
             'tel' => $tel,
-            'gender' => $this->faker->numberBetween(0, 2),
+            'gender' => $this->faker->numberBetween(0, 1),
             'birthday' => $this->faker->date,
             'joindate' => $this->faker->date,
-            'amount_category' => $this->faker->numberBetween(0, 2),
-            'payment' => $this->faker->numberBetween(0, 2),
+            // 'amount_category' => $this->faker->numberBetween(0, 2),
+            // 'payment' => $this->faker->numberBetween(0, 1),
             'introducer' => $this->faker->name,
             'parent_name' => $this->faker->name,
             'campaign' => $this->faker->text,
             'memo' => $this->faker->realText(50),
             'status' => $this->faker->numberBetween(0, 2),
+            'family_id' => $this->faker->numberBetween(0, 1000),
         ];
     }
 }

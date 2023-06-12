@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('group_id')->constrained()->onUpdate('cascade');
             $table->foreignId('student_id')->constrained()->onUpdate('cascade');
+            $table->integer('amount_category')->nullable();
+            $table->tinyInteger('payment')->nullable();
             $table->timestamps();
         });
     }

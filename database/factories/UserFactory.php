@@ -17,12 +17,23 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+
+        $tel = str_replace('-','',$this->faker->phoneNumber);//電話番号フォーマット
+
         return [
             'name' => fake()->name(),
+            'kana' => $this->faker->kanaName,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => 'password123', // password
             'remember_token' => Str::random(10),
+            'zip_code' => $this->faker->postcode,
+            'address1' => $this->faker->city,
+            'address2' => $this->faker->streetAddress,
+            'tel' => $tel,
+            'gender' => $this->faker->numberBetween(0, 2),
+            'birthday' => $this->faker->date,
+            'status' => $this->faker->numberBetween(0, 2),
         ];
     }
 

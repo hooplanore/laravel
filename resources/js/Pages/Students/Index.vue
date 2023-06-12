@@ -6,11 +6,13 @@ import { ref } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 
 defineProps({
-    students: Object
+    students: Object,
+    apstudents: Object
 })
 
 const search = ref('')
 // ref の値を取得するには .valueが必要
+
 const searchStudents = () => {
 Inertia.get(route('students.index', { search: search.value }))
 }
@@ -22,7 +24,7 @@ Inertia.get(route('students.index', { search: search.value }))
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">生徒一覧</h2>
-
+            <div v-if="$page.props.flash.message" class="bg-blue-200">{{ $page.props.flash.message }}</div> 
         </template>
 
         <div class="py-12">
@@ -45,40 +47,46 @@ Inertia.get(route('students.index', { search: search.value }))
                             <div class="sm:-mx-6 lg:-mx-8">
                                 <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                                 <div class="overflow-x-auto">
-                                    <table class="min-w-full text-left text-sm font-light">
+
+                                    <table class="min-w-full text-left text-sm font-light stshow txleft">
                                         <thead class="border-b font-medium dark:border-neutral-500">
                                         <tr>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ID</th>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">所属クラス名</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">氏名</th>
-                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">カナ</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メール</th>
-                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">電話番号</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">性別</th>
-                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">誕生日</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">ステータス</th>
+                                            <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">家族ID</th>
                                             <th scope="col"  class="whitespace-nowrap px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">編集</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr class="border-b dark:border-neutral-500" v-for="student in students.data" :key="student.id">
                                             <td class="whitespace-nowrap px-4 py-3">
-                                                <Link :href="route('students.show',{student:student.id})">{{ student.id }} 詳細</Link>
+                                                <Link class="flex ml-auto text-white bg-green-600 py-1 px-2 focus:outline-none hover:bg-gray-600 rounded" :href="route('students.show',{student:student.id})">詳細</Link>
+                                            </td>
+                                            <td class="whitespace-nowrap px-4 py-3">{{ student.id }}</td>
+                                            
+                                            <td class="whitespace-nowrap px-4 py-3">
+                                                <Link :href="route('students.show',{student:student.id})">
+                                                    <span v-for="group in student.groups" :key="student.id">{{ group.name }}クラス
+                                                    / </span></Link>
                                             </td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.name }}</td>
-                                            <td class="whitespace-nowrap px-4 py-3">{{ student.kana }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">{{ student.email }}</td>
-                                            <td class="whitespace-nowrap px-4 py-3">{{ student.tel }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">
-                                                        <span class="bg-red-100 px-1 py-1" v-if="student.gender === 0 ">女</span>
-                                                        <span class="bg-blue-100 px-1 py-1" v-if="student.gender === 1 ">男</span>
-                                                        <span class="bg-yellow-100 px-1 py-1" v-if="student.gender === 2 ">他</span>
+                                                        <span class="bg-red-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.gender === 0 ">女</span>
+                                                        <span class="bg-blue-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.gender === 1 ">男</span>
+                                                        <span class="bg-yellow-100 text-xs px-2 py-2 font-bold rounded-md" v-if="student.gender === 2 ">他</span>
                                             </td>
-                                            <td class="whitespace-nowrap px-4 py-3">{{ student.birthday }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">
-                                                        <span v-if="student.status === 0 ">在籍</span>
-                                                        <span v-if="student.status === 1 ">休会</span>
-                                                        <span v-if="student.status === 2 ">退会</span>
+                                                        <span class="bg-blue-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.status === 0 ">在籍</span>
+                                                        <span class="bg-red-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.status === 1 ">休会</span>
+                                                        <span class="bg-gray-500 text-white text-xs font-bold px-2 py-2 rounded-md" v-if="student.status === 2 ">退会</span>
                                             </td>
+                                            <td class="whitespace-nowrap px-4 py-3">{{ student.family_id }}</td>
                                             <td class="whitespace-nowrap px-4 py-3">
                                                 <Link as="button" :href="route('students.edit',{student:student.id})" class="flex ml-auto text-white bg-black border-0 py-1 px-1 focus:outline-none hover:bg-gray-600 rounded">編集する</Link>
                                             </td>

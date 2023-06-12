@@ -17,7 +17,7 @@ class GroupFactory extends Factory
     public function definition()
     {
         return [
-            'group_category' => $this->faker->numberBetween(0, 7),
+            'groupcategory_id' => $this->faker->numberBetween(1, 6),
             'name' => $this->faker->city,
             'groupdate' => $this->faker->dayOfWeek,
             'grouptime' => $this->faker->amPm,

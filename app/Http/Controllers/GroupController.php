@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
+use App\Models\Groupcategory;
 use App\Models\Group;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Models\Student;
 
 class GroupController extends Controller
 {
@@ -16,14 +18,15 @@ class GroupController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   
+
         $groups = Group::searchGroups($request->search)
+        ->with('students','groupcategory')
         ->select(
-            'id','group_category','name','groupdate','grouptime','placename',
+            'id','groupcategory_id','name','groupdate','grouptime','placename',
             'address','status')->paginate(50);
 
-            // dd($students);
-
+        //dd($groups);
         return Inertia::render('Groups/Index',[
             'groups' => $groups
         ]);
@@ -47,13 +50,14 @@ class GroupController extends Controller
      */
     public function store(StoreGroupRequest $request)
     {
+        //dd($request);
         Group::create([
-            'group_category' => $request->group_category,
+            'groupcategory_id' => $request->groupcategory_id,
             'name' => $request->name,
             'groupdate' => $request->groupdate,
             'grouptime' => $request->grouptime,
             'placename' => $request->placename,
-            'address' => $request->address,
+            'address' => $request->address
         ]);
 
         return to_route('groups.index')
@@ -69,10 +73,16 @@ class GroupController extends Controller
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function show(Group $group)
+    public function show($id)
     {
+        $group = Group::with('students', 'groupcategory')->findOrFail($id);
+        $user = Group::with('users')->findOrFail($id);
+        $apgroup = Group::with('apstudents')->findOrFail($id);
+        //dd($group);
         return Inertia::render('Groups/Show',[
-            'group' => $group
+            'group' => $group,
+            'user' => $user,
+            'apgroup' => $apgroup
         ]);
     }
 
@@ -84,6 +94,7 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
+        
         return Inertia::render('Groups/Edit',[
             'group' => $group
         ]);
@@ -99,7 +110,7 @@ class GroupController extends Controller
     public function update(UpdateGroupRequest $request, Group $group)
     {
         
-        $group->group_category = $request->group_category;
+        $group->groupcategory_id = $request->groupcategory_id;
         $group->name = $request->name;
         $group->groupdate = $request->groupdate;
         $group->grouptime = $request->grouptime;
@@ -109,7 +120,11 @@ class GroupController extends Controller
         $group->save();
 
 
-        return to_route('groups.index')
+        $groupId = $group->id;
+        //dd($studentId);
+
+        return redirect()->route('groups.show', ['group' => $groupId])
+        //return to_route('groups.index')
         ->with([
             'message' => '更新しました',
             'status' => 'success'
